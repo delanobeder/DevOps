@@ -56,7 +56,7 @@
 9. Execute a aplicação (Imagem no dockerhub)
 
    ```bash
-   $ docker run --rm -p 8080:8080 <usuario_docker_hub>/alomundo-nodejs
+   $ docker run --rm -p 3000:3000 <usuario_docker_hub>/alomundo-nodejs
    ```
 
 10. Fim
