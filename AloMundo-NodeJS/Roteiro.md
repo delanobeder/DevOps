@@ -15,7 +15,7 @@
 3. Realize a instalação das dependências da aplicação
 
    ```bash
-   $ npm install express
+   $ npm install
    ```
 
 4. Nesse diretório, crie o arquivo **Dockerfile**
