@@ -1,0 +1,4 @@
+**/*.pdf
+**/target
+**/node_modules
+**/*-lock.json
