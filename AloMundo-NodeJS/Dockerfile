@@ -3,6 +3,8 @@ FROM node:16.14.0-alpine
 # Set the working directory
 WORKDIR /usr/src/app
 
+ENV TZ=America/Sao_Paulo
+
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
