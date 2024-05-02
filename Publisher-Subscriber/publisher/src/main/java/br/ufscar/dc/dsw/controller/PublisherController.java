@@ -3,7 +3,6 @@ package br.ufscar.dc.dsw.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufscar.dc.dsw.model.Message;
@@ -11,7 +10,7 @@ import br.ufscar.dc.dsw.service.RabbitMQSender;
 
 @RestController
 @RequestMapping(value = "/publisher/")
-public class RabbitMQWebController {
+public class PublisherController {
 
 	@Autowired
 	RabbitMQSender rabbitMQSender;
