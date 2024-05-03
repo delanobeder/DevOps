@@ -1,0 +1,36 @@
+services:
+  frontend:
+    image: contatos/frontend
+    ports:
+      - "80:80"
+    networks: 
+      - frontend
+      - backend
+    depends_on:
+      - backend
+  
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - backend
+  
+  backend:
+    image: contatos/backend
+    networks:
+      - backend
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_URL: jdbc:mysql://db:3306/Cidades?createDatabaseIfNotExist=true
+    depends_on:
+      - db
+
+networks: 
+  frontend:
+  backend:
+volumes:
+  mysql-data:
