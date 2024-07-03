@@ -5,7 +5,6 @@ services:
       - "80:80"
     networks: 
       - frontend
-      - backend
     depends_on:
       - backend
   
@@ -22,6 +21,7 @@ services:
     image: contatos/backend
     networks:
       - backend
+      - frontend
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: root
