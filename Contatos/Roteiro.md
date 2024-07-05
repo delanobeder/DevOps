@@ -34,7 +34,7 @@
 5. Execute a aplicação
 
    ```bash
-   $ docker-compose up
+   $ docker compose up
    ```
 
 6. A aplicação estará disponível para acesso no link: http://localhost:8080

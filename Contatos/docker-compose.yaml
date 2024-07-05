@@ -1,6 +1,7 @@
 services:
   frontend:
     image: contatos/frontend
+    restart: always
     ports:
       - "80:80"
     networks: 
@@ -19,6 +20,7 @@ services:
   
   backend:
     image: contatos/backend
+    restart: always
     networks:
       - backend
       - frontend
