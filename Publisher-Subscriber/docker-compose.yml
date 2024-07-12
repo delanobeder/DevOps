@@ -3,9 +3,6 @@ services:
     image: rabbitmq:3-management
     restart: always
     container_name: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
   publisher:
     build: ./publisher
     restart: always
