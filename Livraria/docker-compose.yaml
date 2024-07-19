@@ -5,6 +5,10 @@ services:
       - .env
     volumes:
       - mysql-data:/var/lib/mysql
+    healthcheck: #para garantir que o db vai estar completamente up antes de rodar o app
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 5s
+      retries: 10
   
    transacao:
     image: livraria/transacao-api
@@ -13,7 +17,8 @@ services:
       - .env
       - TransacaoAPI/.env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
    livrariamvc:
     image: livraria/livraria-mvc
@@ -24,7 +29,9 @@ services:
       - .env
       - LivrariaMVC/.env
     depends_on:
-      - db
-      - transacao 
+      db:
+        condition: service_healthy
+      transacao:
+        condition: service_started
 volumes:
   mysql-data:
