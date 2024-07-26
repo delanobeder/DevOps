@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: livraria-db
+  labels:
+    app: livraria-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: livraria-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: livraria-db
+    spec:
+      containers:
+      - name: livraria-db
+        image: mysql:5.7
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - name: livraria-persistent-storage
+          mountPath: /var/lib/mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: livraria-db-secret
+                key: password
+      volumes:
+      - name: livraria-persistent-storage
+        persistentVolumeClaim:
+          claimName: livraria-pv-claim

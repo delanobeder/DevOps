@@ -1,0 +1,8 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: livraria-db-configmap 
+data:
+  database_transacao_url: jdbc:mysql://livraria-db:3306/Transacao?createDatabaseIfNotExist=true
+  database_livraria_url: jdbc:mysql://livraria-db:3306/Livraria?createDatabaseIfNotExist=true
+  database_user: root

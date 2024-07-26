@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transacao-api
+  labels:
+    app: transacao-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transacao-api
+  template:
+    metadata:
+      labels:
+        app: transacao-api
+    spec:
+      containers:
+        - name: transacao-api
+          image: livraria/transacao-api:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          env:
+            - name: MYSQL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: livraria-db-configmap
+                  key: database_transacao_url
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: livraria-db-secret
+                  key: username
+            - name: MYSQL_PASSWORD 
+              valueFrom:
+                secretKeyRef:
+                  name: livraria-db-secret
+                  key: password
