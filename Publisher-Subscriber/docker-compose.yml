@@ -4,7 +4,7 @@ services:
     restart: always
     container_name: rabbitmq
   publisher:
-    build: ./publisher
+    image: ps/publisher
     restart: always
     container_name: publisher
     env_file:
@@ -14,7 +14,7 @@ services:
     depends_on:
       - rabbitmq
   subscriber:
-    build: ./subscriber
+    image: ps/subscriber
     restart: always
     container_name: subscriber
     env_file:

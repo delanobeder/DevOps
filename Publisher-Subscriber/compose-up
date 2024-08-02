@@ -1,0 +1,48 @@
+#!/bin/bash
+
+build_publisher_image() {
+    
+    ################################################
+    # Gerando a imagem docker do publisher
+    ################################################
+    
+    cd publisher
+    
+    mvn package
+    
+    mvn clean
+    
+    cd ..
+}
+
+build_subscriber_image() {
+    
+    ################################################
+    # Gerando a imagem docker do subscriber
+    ################################################
+    
+    cd subscriber
+    
+    mvn package
+
+    mvn clean
+    
+    cd ..
+}
+
+while getopts ":b" option; do
+   case $option in
+      b) # build images
+         build_publisher_image
+
+         build_subscriber_image
+   esac
+done
+
+################################################
+# Executando o docker compose
+################################################
+
+cp subscriber/.env.old subscriber/.env
+
+docker compose up
