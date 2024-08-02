@@ -1,5 +1,43 @@
 #!/bin/bash
 
+build_backend_image() {
+    
+    ################################################
+    # Gerando a imagem docker do backend
+    ################################################
+    
+    cd backend
+    
+    mvn package
+    
+    mvn clean
+    
+    cd ..
+
+    # minikube image load apenas funciona no docker 24
+    
+    minikube image load contatos/backend
+}
+
+build_frontend_image() {
+    
+    ################################################
+    # Gerando a imagem docker do frontend
+    ################################################
+    
+    cd frontend
+    
+    docker build . -t contatos/frontend
+    
+    cd ..
+
+    minikube image load contatos/frontend
+}
+
+load_mysql_image() {
+    minikube image load mysql:5.7
+}
+
 ################################################
 # Inicializando o Minikube
 ################################################
@@ -25,10 +63,21 @@ minikube addons enable metrics-server
 minikube dashboard &
 
 ################################################
-# Configurando o K8s (DB)
+# Verificando flag -b
 ################################################
 
-minikube image load mysql:5.7
+while getopts ":b" option; do
+   case $option in
+      b) # build images
+         build_backend_image
+         build_frontend_image
+         load_mysql_image
+   esac
+done
+
+################################################
+# Configurando o K8s (DB)
+################################################
 
 cd K8s/db
 
@@ -37,22 +86,6 @@ kubectl apply -f secret.yaml; kubectl create -f pv.yaml; kubectl create -f pvc.y
 kubectl apply -f deployment.yaml; kubectl apply -f service.yaml; kubectl apply -f configmap.yaml; 
 
 cd ../..
-
-################################################
-# Gerando a imagem docker do backend
-################################################
-
-#eval $(minikube docker-env)
-
-cd backend
-
-mvn package
-
-cd ..
-
-# minikube image load apenas funciona no docker 24
-
-minikube image load contatos/backend
 
 ################################################
 # Configurando o backend
@@ -65,18 +98,6 @@ kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name
 kubectl apply -f deployment.yaml; kubectl apply -f service.yaml; 
 
 cd ../..
-
-################################################
-# Gerando a imagem docker do frontend
-################################################
-
-cd frontend
-
-docker build . -t contatos/frontend
-
-cd ..
-
-minikube image load contatos/frontend
 
 ################################################
 # Configurando o frontend
