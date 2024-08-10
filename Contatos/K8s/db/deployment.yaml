@@ -19,18 +19,26 @@ spec:
       containers:
       - name: contatos-db
         image: mysql:5.7
+        imagePullPolicy: IfNotPresent
         ports:
-        - containerPort: 3306
-        volumeMounts:
-        - name: contatos-persistent-storage
-          mountPath: /var/lib/mysql
+          - containerPort: 3306
         env:
           - name: MYSQL_ROOT_PASSWORD 
             valueFrom:
               secretKeyRef:
                 name: contatos-db-secret
                 key: password
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "1"
+          limits:
+            memory: "2Gi"
+            cpu: "2"
+        volumeMounts:
+          - name: contatos-persistent-storage
+            mountPath: /var/lib/mysql
       volumes:
-      - name: contatos-persistent-storage
-        persistentVolumeClaim:
-          claimName: contatos-pv-claim
+        - name: contatos-persistent-storage
+          persistentVolumeClaim:
+            claimName: contatos-pv-claim

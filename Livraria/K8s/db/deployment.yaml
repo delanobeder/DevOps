@@ -21,15 +21,22 @@ spec:
         image: mysql:5.7
         ports:
         - containerPort: 3306
-        volumeMounts:
-        - name: livraria-persistent-storage
-          mountPath: /var/lib/mysql
         env:
           - name: MYSQL_ROOT_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: livraria-db-secret
                 key: password
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: 1
+          limits:
+            memory: "2Gi"
+            cpu: 2
+        volumeMounts:
+        - name: livraria-persistent-storage
+          mountPath: /var/lib/mysql
       volumes:
       - name: livraria-persistent-storage
         persistentVolumeClaim:

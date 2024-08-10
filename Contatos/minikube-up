@@ -8,15 +8,13 @@ build_backend_image() {
     
     cd backend
     
-    mvn package
-    
-    mvn clean
-    
-    cd ..
-
+    mvn package clean
+        
     # minikube image load apenas funciona no docker 24
     
     minikube image load contatos/backend
+
+    cd ..
 }
 
 build_frontend_image() {
@@ -29,9 +27,9 @@ build_frontend_image() {
     
     docker build . -t contatos/frontend
     
-    cd ..
-
     minikube image load contatos/frontend
+
+    cd ..
 }
 
 load_mysql_image() {

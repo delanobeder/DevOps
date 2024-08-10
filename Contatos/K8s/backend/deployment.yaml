@@ -36,3 +36,10 @@ spec:
                 secretKeyRef:
                   name: contatos-db-secret
                   key: password
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"
