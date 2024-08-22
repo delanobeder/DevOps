@@ -1,0 +1,27 @@
+#!/bin/bash
+
+################################################
+# Inicializando o Minikube
+################################################
+
+minikube start --nodes 4
+
+################################################
+# Inicializando o DashBoard
+################################################
+
+minikube addons enable dashboard
+minikube addons enable metrics-server
+minikube dashboard &
+
+################################################
+# Configurando o K8s
+################################################
+
+kubectl apply -f deployment.yaml; kubectl apply -f service.yaml 
+
+# $ kubectl get nodes
+# $ minikube status
+# $ kubectl get pods -o wide
+# $ minikube service list
+# $ curl http://192.168.49.2:30000/; echo ""

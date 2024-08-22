@@ -1,0 +1,28 @@
+#!/bin/bash
+
+################################################
+# Inicializando o Minikube
+################################################
+
+minikube start
+
+################################################
+# Inicializando o DashBoard
+################################################
+
+minikube addons enable dashboard
+minikube addons enable metrics-server
+minikube dashboard &
+
+################################################
+# Configurando o K8s
+################################################
+
+kubectl apply -f deployment.yaml; kubectl apply -f service.yaml 
+
+# $ minikube tunnel em um terminal
+# $ kubectl get svc
+# NAME         TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
+# frontend     LoadBalancer   10.110.56.117   10.110.56.117   80:31852/TCP   86s
+# kubernetes   ClusterIP      10.96.0.1       <none>          443/TCP        28m
+# $ curl http://10.110.56.117/; echo ""

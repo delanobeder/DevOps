@@ -1,0 +1,39 @@
+#!/bin/bash
+
+################################################
+# Inicializando o Minikube
+################################################
+
+minikube start
+
+################################################
+# Habilitando o Ingress
+################################################
+
+minikube image load k8s.gcr.io/ingress-nginx/controller:v1.9.4
+
+minikube addons enable ingress
+
+################################################
+# Inicializando o DashBoard
+################################################
+
+minikube addons enable dashboard
+
+minikube addons enable metrics-server
+
+minikube dashboard &
+
+################################################
+# Configurando o K8s
+################################################
+
+kubectl apply -f service.yaml 
+
+################################################
+# Configurando o Ingress
+################################################
+
+sleep 1m
+
+kubectl apply -f ingress.yaml

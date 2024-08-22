@@ -8,6 +8,8 @@ build_backend_image() {
     
     cd backend
     
+    # eval ${minikube docker-env}
+
     mvn package clean
         
     # minikube image load apenas funciona no docker 24
@@ -24,6 +26,8 @@ build_frontend_image() {
     ################################################
     
     cd frontend
+    
+    # eval ${minikube docker-env}
     
     docker build . -t contatos/frontend
     
