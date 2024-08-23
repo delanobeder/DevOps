@@ -1,0 +1,51 @@
+#!/bin/bash
+
+build_livraria_image() {
+    
+    ################################################
+    # Gerando a imagem docker do LivrariaMVC
+    ################################################
+    
+    cd LivrariaMVC
+    
+    mvn package clean
+    
+    # minikube image load apenas funciona no docker 24
+    
+    minikube image load livraria/livraria-mvc
+
+    cd ..
+}
+
+build_transacao_image() {
+    
+    ################################################
+    # Gerando a imagem docker do TransacaoAPI
+    ################################################
+    
+    cd TransacaoAPI
+    
+    mvn package clean
+    
+    minikube image load livraria/transacao-api
+    
+    cd ..
+}
+
+################################################
+# Verificando flag -b
+################################################
+
+while getopts ":b" option; do
+   case $option in
+      b) # build images
+         build_livraria_image
+         build_transacao_image
+   esac
+done
+
+################################################
+# Executando o docker compose
+################################################
+
+docker compose up

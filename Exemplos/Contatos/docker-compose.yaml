@@ -19,7 +19,7 @@ services:
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: root
-      MYSQL_URL: jdbc:mysql://db:3306/Cidades?createDatabaseIfNotExist=true
+      MYSQL_URL: jdbc:mysql://db:3306/Contatos?createDatabaseIfNotExist=true
     depends_on:
       db:
         condition: service_healthy

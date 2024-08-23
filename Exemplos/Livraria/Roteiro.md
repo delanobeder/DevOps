@@ -13,7 +13,7 @@
 
 1. Clone o repositório https://github.com/delanobeder/DevOps
 
-2. Entre no diretório **Livraria**
+2. Entre no diretório **Exemplos/Livraria**
 
 3. Entre no diretório **LivrariaMVC** e faça o **build** da imagem (***livraria/livraria-mvc***)
 

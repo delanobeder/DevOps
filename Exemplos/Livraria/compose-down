@@ -1,0 +1,8 @@
+#!/bin/bash
+
+################################################
+# Executando o docker compose (DOWN)
+# -v (remove volumes)
+################################################
+
+docker compose down -v
