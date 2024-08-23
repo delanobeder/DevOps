@@ -18,11 +18,16 @@ public class PublisherController {
 	@GetMapping(value = "/publish")
 	public String producer() {
 
+		String toName      = System.getenv().getOrDefault("TO_NAME", "Delano Beder");
+        String toAddress   = System.getenv().getOrDefault("TO_ADDRESS", "delano@ufscar.br");
+		String fromName    = System.getenv().getOrDefault("FROM_NAME", "Delano Beder");
+        String fromAddress = System.getenv().getOrDefault("FROM_ADDRESS", "delanobeder@gmail.com");
+		        
 		Message msg = new Message();
-		msg.setToName("Delano Beder");
-		msg.setToAddress("delano@ufscar.br");
-		msg.setFromName("Delano Beder");
-		msg.setFromAddress("delanobeder@gmail.com");
+		msg.setToName(toName);
+		msg.setToAddress(toAddress);
+		msg.setFromName(fromName);
+		msg.setFromAddress(fromAddress);
 		msg.setSubject("Teste subject mensagem");
 		msg.setBody("Teste body mensagem");
 		rabbitMQSender.send(msg);

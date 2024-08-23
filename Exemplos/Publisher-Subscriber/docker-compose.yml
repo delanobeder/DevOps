@@ -1,16 +1,13 @@
 services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    restart: always
-    container_name: rabbitmq
   publisher:
     image: ps/publisher
     restart: always
     container_name: publisher
     env_file:
       - .env
+      - Publisher/.env
     ports:
-      - "8080:8080"
+      - "80:8080"
     depends_on:
       - rabbitmq
   subscriber:
@@ -19,6 +16,10 @@ services:
     container_name: subscriber
     env_file:
       - .env
-      - ./subscriber/.env
+      - ./Subscriber/.env
     depends_on:
       - publisher
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    container_name: rabbitmq
