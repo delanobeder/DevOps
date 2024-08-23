@@ -57,9 +57,6 @@ public class ContatoRestController {
 	@GetMapping(path = "/contatos")
 	public ResponseEntity<List<Contato>> lista() {
 		List<Contato> lista = service.findAll();
-		if (lista.isEmpty()) {
-			return ResponseEntity.notFound().build();
-		}
 		return ResponseEntity.ok(lista);
 	}
 

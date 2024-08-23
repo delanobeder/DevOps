@@ -3,7 +3,7 @@
 
 - - -
 
-#### Exemplo de uma aplicação composta (docker compose) de 3 serviços: NodeJs (Express) + SpringMVC + MySQL
+#### Exemplo de uma aplicação composta (docker compose) de 3 serviços: NodeJs (Vue.js) + SpringMVC + MySQL
 
 - - -
 
@@ -11,7 +11,7 @@
 
 1. Clone o repositório https://github.com/delanobeder/DevOps
 
-2. Entre no diretório **Contatos**
+2. Entre no diretório **Exemplos/Contatos**
 
 3. Entre no diretório **backend** e faça o **build** da imagem (***contatos/backend***)
 
@@ -37,6 +37,6 @@
    $ docker compose up
    ```
 
-6. A aplicação estará disponível para acesso no link: http://localhost:8080
+6. A aplicação estará disponível para acesso no link: http://localhost
 
 7. Fim
