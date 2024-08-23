@@ -9,10 +9,6 @@ build_livraria_image() {
     cd LivrariaMVC
     
     mvn package clean
-    
-    # minikube image load apenas funciona no docker 24
-    
-    minikube image load livraria/livraria-mvc
 
     cd ..
 }
@@ -26,9 +22,7 @@ build_transacao_image() {
     cd TransacaoAPI
     
     mvn package clean
-    
-    minikube image load livraria/transacao-api
-    
+        
     cd ..
 }
 
