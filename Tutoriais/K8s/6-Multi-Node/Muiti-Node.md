@@ -48,7 +48,7 @@ minikube-m04   Ready    <none>          23s   v1.28.3
 
 ## Criando 1 Deployment
 
-## (4 Pods/Réplicas -- 4 em cada Node)
+## (4 Pods/Réplicas -- 1 em cada Node)
 
 
 
