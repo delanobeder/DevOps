@@ -39,7 +39,4 @@ done
 # Executando o docker compose
 ################################################
 
-cp Publisher/.env-template Publisher/.env
-cp Subscriber/.env-template Subscriber/.env
-
 docker compose up
