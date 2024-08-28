@@ -1,0 +1,68 @@
+<!-- index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
+    <meta name="viewport" content=
+        "width=device-width, initial-scale=1.0">
+    <title>To-do List</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div class="box" id="heading">
+        <h1 style="color: #ffffff">
+            <%= today %>
+        </h1>
+    </div>
+
+    <div class="box">
+
+        <!-- We check if the object receieved is not
+            empty, else there will be an error -->
+
+        <!-- To avoid error, we simply use if-else, 
+            empty object is handled in if block -->
+        <% if (tasks.length===0) {%>
+            <p style="text-align: center;">
+                Nenhuma tarefa adicionada
+            </p>
+
+        <% } else { %>
+            <% for (var i=0; i< tasks.length; i++){ %>
+
+                <!-- Action is the route to which form 
+                    send request -->
+                <!-- And method defines the "type" of request -->
+                <form action="/delete" method="post">
+                    <div class="item">
+                        <input type="checkbox" name="checkbox" 
+                            value="<%=tasks[i]._id%>"
+                            onchange="this.form.submit()">
+                        <p>
+                            <%= tasks[i].name %>
+                        </p>
+                    </div>
+                    <hr>
+                </form>
+            <% } %>
+        <% } %>
+                
+        <!-- Action is the route to which form 
+                                send request -->
+        <!-- And method defines the "type" 
+                                of request -->
+        <form class="item " action="/" method="POST">
+            <input type="text" name="newTask" 
+                autocomplete="off" 
+                placeholder="Adicione uma Nova Tarefa Aqui">
+            
+            <button type="submit" name="submit">+</button>
+        </form>
+    </div>
+</body>
+
+</html>

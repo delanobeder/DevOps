@@ -1,0 +1,20 @@
+services:
+  app:
+    image: todolist/app
+    env_file:
+      - .env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    links:
+      - mongodb
+  mongodb:
+    image: mongo:4.2
+    env_file:
+      - .env
+    volumes:
+      - mongo-data:/data/db
+volumes:
+  mongo-data:
+  

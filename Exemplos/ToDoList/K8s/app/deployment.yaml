@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todolist
+  labels:
+    app: todolist
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todolist
+  template:
+    metadata:
+      labels:
+        app: todolist
+    spec:
+      containers:
+        - name: todolist
+          image: todolist/app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+          - name: PORT 
+            value: "80"
+          - name: MONGO_INITDB_HOST
+            value: "todolist-db"
+          - name: MONGO_INITDB_ROOT_USERNAME 
+            valueFrom:
+              secretKeyRef:
+                name: todolist-db-secret
+                key: username
+          - name: MONGO_INITDB_ROOT_PASSWORD 
+            valueFrom:
+              secretKeyRef:
+                name: todolist-db-secret
+                key: password
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"

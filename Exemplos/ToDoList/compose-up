@@ -1,0 +1,27 @@
+#!/bin/bash
+
+build_app_image() {
+    
+    ################################################
+    # Gerando a imagem docker do app
+    ################################################
+    
+    cd app
+    
+    docker build . -t todolist/app
+    
+    cd ..
+}
+
+while getopts ":b" option; do
+   case $option in
+      b) # build images
+         build_app_image
+   esac
+done
+
+################################################
+# Executando o docker compose (UP)
+################################################
+
+docker compose up

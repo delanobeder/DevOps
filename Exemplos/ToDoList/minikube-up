@@ -1,0 +1,92 @@
+#!/bin/bash
+
+build_app_image() {
+    
+    ################################################
+    # Gerando a imagem docker do app
+    ################################################
+    
+    cd app
+    
+    # eval ${minikube docker-env}
+
+    docker build . -t todolist/app
+
+    # minikube image load apenas funciona no docker 24
+    
+    minikube image load todolist/app
+
+    cd ..
+}
+
+load_mongo_image() {
+    minikube image load mongo:4.2
+}
+
+################################################
+# Inicializando o Minikube
+################################################
+
+minikube start --cpus 4 --memory 4096
+
+################################################
+# Habilitando o Ingress
+################################################
+
+minikube image load k8s.gcr.io/ingress-nginx/controller:v1.9.4
+
+minikube addons enable ingress
+
+################################################
+# Inicializando o DashBoard
+################################################
+
+minikube addons enable dashboard
+
+minikube addons enable metrics-server
+
+minikube dashboard &
+
+################################################
+# Verificando flag -b
+################################################
+
+while getopts ":b" option; do
+   case $option in
+      b) # build images
+         build_app_image
+         load_mongo_image
+   esac
+done
+
+################################################
+# Configurando o K8s (DB)
+################################################
+
+cd K8s/db
+
+kubectl apply -f secret.yaml; kubectl create -f pv.yaml; kubectl create -f pvc.yaml;
+
+kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
+
+cd ../..
+
+################################################
+# Configurando o app
+################################################
+
+cd K8s/app
+
+kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name)
+
+kubectl apply -f deployment.yaml; kubectl apply -f service.yaml; 
+
+cd ../..
+
+################################################
+# Configurando o Ingress
+################################################
+
+cd K8s
+
+kubectl apply -f ingress.yaml

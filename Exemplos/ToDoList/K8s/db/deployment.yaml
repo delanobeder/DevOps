@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todolist-db
+  labels:
+    app: todolist-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todolist-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: todolist-db
+    spec:
+      containers:
+      - name: todolist-db
+        image: mongo:4.2
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 27017
+        env:
+          - name: MONGO_INITDB_ROOT_USERNAME 
+            valueFrom:
+              secretKeyRef:
+                name: todolist-db-secret
+                key: username
+          - name: MONGO_INITDB_ROOT_PASSWORD 
+            valueFrom:
+              secretKeyRef:
+                name: todolist-db-secret
+                key: password
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "1"
+          limits:
+            memory: "2Gi"
+            cpu: "2"
+        volumeMounts:
+          - name: todolist-persistent-storage
+            mountPath: /data/db
+      volumes:
+        - name: todolist-persistent-storage
+          persistentVolumeClaim:
+            claimName: todolist-pv-claim
