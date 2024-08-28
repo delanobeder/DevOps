@@ -24,6 +24,8 @@ $ minikube addons enable ingress
 
 $ minikube addons enable dashboard
 
+$ minikube addons enable metrics-server
+
 # Deixe este comando rodando (background).
 $ minikube dashboard &
 ```
@@ -41,6 +43,7 @@ $ minikube dashboard &
 
    ```bash
    $ cd backend
+   $ eval $(minikube docker-env)
    $ mvn package
    $ cd ..
    ```
@@ -49,6 +52,7 @@ $ minikube dashboard &
 
    ```bash
    $ cd frontend
+   $ eval $(minikube docker-env)
    $ docker build . -t contatos/frontend
    $ cd ..
    ```
@@ -57,6 +61,8 @@ $ minikube dashboard &
 ##### 3. Configuração do serviço contatos-db (MySQL)
 
 ###### 3.1. Persistência de dados do serviço
+
+https://kubernetes.io/pt-br/docs/concepts/storage/persistent-volumes/
 
 3.1.1. Crie o **PersistentVolume** (arquivo **K8s/db/pv.yaml**)
 
@@ -98,6 +104,8 @@ spec:
 
 ```bash
 $ kubectl create -f pv.yaml; kubectl create -f pvc.yaml
+persistentvolume/contatos-pv-volume created
+persistentvolumeclaim/contatos-pv-claim created
 ```
 
 <div style="page-break-after: always"></div>
@@ -105,6 +113,8 @@ $ kubectl create -f pv.yaml; kubectl create -f pvc.yaml
 ###### 3.2. Arquivos de configuração (variáveis de ambiente do serviço)
 
 3.2.1.  Crie o **ConfigMap** (arquivo **K8s/db/configmap.yaml**)
+
+https://kubernetes.io/pt-br/docs/concepts/configuration/configmap/
 
 ```yaml
 kind: ConfigMap 
@@ -116,6 +126,8 @@ data:
 ```
 
 3.2.2. Crie o **Secret** (arquivo **K8s/db/secret.yaml**)
+
+https://kubernetes.io/pt-br/docs/concepts/configuration/secret/
 
 ```yaml
 apiVersion: v1
@@ -131,7 +143,9 @@ data:
 3.2.3. No diretório **K8s/db**, execute o comando abaixo:
 
 ```bash
-$ kubectl apply -f configmap.yaml; kubectl apply -f secret.yaml 
+$ kubectl apply -f configmap.yaml; kubectl apply -f secret.yaml
+configmap/contatos-db-configmap created
+secret/contatos-db-secret created
 ```
 
 
@@ -141,6 +155,8 @@ $ kubectl apply -f configmap.yaml; kubectl apply -f secret.yaml
 ###### 3.3. Implantação do serviço no K8s (Minikube)
 
 3.3.1. Crie o **Deployment** (arquivo **K8s/db/deployment.yaml**)
+
+https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 
 ```yaml
 apiVersion: apps/v1
@@ -192,6 +208,8 @@ spec:
 
 3.3.2. Crie o **Service** (arquivo **K8s/db/service,yaml**)
 
+https://kubernetes.io/docs/concepts/services-networking/service/
+
 ```yaml
 apiVersion: v1
 kind: Service
@@ -210,7 +228,9 @@ spec:
 3.3.3. No diretório **K8s/db**, execute o comando abaixo:
 
 ```bash
-$ kubectl apply -f deployment.yaml; kubectl apply -f service.yaml 
+$ kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
+deployment.apps/contatos-db created
+service/contatos-db created
 ```
 
 <div style="page-break-after: always"></div>
@@ -292,7 +312,9 @@ spec:
 4.1.3. No diretório **K8s/backend**, execute o comando abaixo:
 
 ```bash
-$ kubectl apply -f deployment.yaml; kubectl apply -f service.yaml 
+$ kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
+deployment.apps/backend created
+service/backend created
 ```
 
 <div style="page-break-after: always"></div>
@@ -359,7 +381,9 @@ spec:
 5.1.3. No diretório **K8s/frontend**, execute o comando abaixo:
 
 ```bash
-$ kubectl apply -f deployment.yaml; kubectl apply -f service.yaml 
+$ kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
+deployment.apps/frontend created
+service/frontend created
 ```
 
 <div style="page-break-after: always"></div>
@@ -367,6 +391,8 @@ $ kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
 ###### 6. Acessando a aplicação
 
 6.1. Crie o arquivo **K8s/ingress.yaml** com o conteúdo abaixo
+
+https://kubernetes.io/docs/concepts/services-networking/ingress/
 
 ```yaml
 apiVersion: networking.k8s.io/v1
@@ -391,6 +417,7 @@ spec:
 
 ```shell
 $ kubectl apply -f ingress.yaml
+ingress.networking.k8s.io/gateway-ingress created
 ```
 
 6.3. Configure o arquivo **/etc/hosts**. Note que o IP 192.168.49.2 é o resultado da invocação do comando `minikube ip`.
@@ -401,3 +428,55 @@ $ kubectl apply -f ingress.yaml
 192.168.49.2    contatos.k8s.local
 ```
 6.4. Abra um terminal e acesse http://contatos.k8s.local
+
+<div style="page-break-after: always"></div>
+
+----
+###### 7. Limpeza
+
+Caso deseje, você pode remover todos os recursos criados no seu cluster:
+
+7.1 No diretório **K8s**, execute o comando abaixo:
+
+```bash
+$ kubectl delete -f ingress.yaml
+ingress.networking.k8s.io "gateway-ingress" deleted
+```
+
+7.2 No diretório **K8s/frontend**, execute o comando abaixo:
+
+```bash
+$ kubectl delete -f deployment.yaml; kubectl delete -f service.yaml
+deployment.apps "frontend" deleted
+service "frontend" deleted
+```
+
+7.3 No diretório **K8s/backend**, execute o comando abaixo:
+
+```bash
+$ kubectl delete -f deployment.yaml; kubectl delete -f service.yaml
+deployment.apps "backend" deleted
+service "backend" deleted
+```
+
+7.4 No diretório **K8s/db**, execute o comando abaixo
+
+```bash
+$ kubectl delete -f deployment.yaml; kubectl delete -f service.yaml; 
+deployment.apps "contatos-db" deleted
+service "contatos-db" deleted
+
+$ kubectl delete -f configmap.yaml; kubectl delete -f secret.yaml 
+configmap "contatos-db-configmap" deleted
+secret "contatos-db-secret" deleted
+
+$ kubectl delete -f pvc.yaml; kubectl delete pv contatos-pv-volume
+persistentvolumeclaim "contatos-pv-claim" deleted
+persistentvolume "contatos-pv-volume" deleted
+```
+
+7.5. Encerre o cluster do minikube:
+
+```shell
+$ minikube stop
+```
