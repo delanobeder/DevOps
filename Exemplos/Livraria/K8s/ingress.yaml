@@ -14,3 +14,13 @@ spec:
                 name: livraria
                 port: 
                   number: 8080
+    - host: transacao.k8s.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: transacao-api
+                port:
+                  number: 8081

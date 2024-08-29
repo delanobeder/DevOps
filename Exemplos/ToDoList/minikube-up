@@ -27,7 +27,7 @@ load_mongo_image() {
 # Inicializando o Minikube
 ################################################
 
-minikube start --cpus 4 --memory 4096
+minikube start
 
 ################################################
 # Habilitando o Ingress
