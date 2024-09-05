@@ -36,8 +36,8 @@ build_frontend_image() {
     cd ..
 }
 
-load_mysql_image() {
-    minikube image load mysql:5.7
+load_mongo_image() {
+    minikube image load mongo:4.2
 }
 
 ################################################
@@ -73,7 +73,7 @@ while getopts ":b" option; do
       b) # build images
          build_backend_image
          build_frontend_image
-         load_mysql_image
+         load_mongo_image
    esac
 done
 

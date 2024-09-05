@@ -21,7 +21,7 @@ spec:
         image: mongo:4.2
         imagePullPolicy: IfNotPresent
         ports:
-          - containerPort: 3306
+          - containerPort: 27017
         env:
           - name: MONGO_INITDB_ROOT_USERNAME
             valueFrom:
