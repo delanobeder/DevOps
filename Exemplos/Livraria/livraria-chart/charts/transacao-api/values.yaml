@@ -1,0 +1,6 @@
+replicaCount: 1
+
+image:
+  repository: livraria/transacao-api
+  tag: "latest"
+  pullPolicy: IfNotPresent

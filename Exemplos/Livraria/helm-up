@@ -1,0 +1,87 @@
+#!/bin/bash
+
+build_livraria_image() {
+    
+    ################################################
+    # Gerando a imagem docker do LivrariaMVC
+    ################################################
+    
+    cd LivrariaMVC
+    
+    mvn package clean
+    
+    # minikube image load apenas funciona no docker 24
+    
+    minikube image load livraria/livraria-mvc
+    
+    cd ..
+}
+
+build_transacao_image() {
+    
+    ################################################
+    # Gerando a imagem docker do TransacaoAPI
+    ################################################
+    
+    cd TransacaoAPI
+    
+    mvn package clean
+    
+    minikube image load livraria/transacao-api
+
+    cd ..
+}
+
+load_mysql_image() {
+    minikube image load mysql:5.7
+}
+
+init_minikube() {
+
+    ################################################
+    # Inicializando o Minikube
+    ################################################
+
+    minikube start
+
+    ################################################
+    # Habilitando o Ingress
+    ################################################
+
+    minikube image load k8s.gcr.io/ingress-nginx/controller:v1.9.4
+
+    minikube addons enable ingress
+
+    ################################################
+    # Inicializando o DashBoard
+    ################################################
+
+    minikube addons enable dashboard
+
+    minikube addons enable metrics-server
+
+    minikube dashboard &
+}
+
+################################################
+# Verificando flag -b
+################################################
+
+while getopts ":bi" option; do
+   case $option in
+      b) # build images
+         build_livraria_image
+         build_transacao_image
+         load_mysql_image
+         ;;
+      i) # init minikube
+         init_minikube
+         ;;
+   esac
+done
+
+################################################
+# Instalando via helm
+################################################
+
+helm install livraria livraria-chart

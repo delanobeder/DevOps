@@ -1,0 +1,6 @@
+global:
+  livraria: 
+    name: livraria
+  
+  transacao: 
+    name: transacao

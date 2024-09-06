@@ -1,0 +1,6 @@
+global:
+  backend:
+    name: backend
+  
+  frontend:
+    name: frontend

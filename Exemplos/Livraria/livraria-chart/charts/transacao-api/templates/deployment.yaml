@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.global.transacao.name }}
+  labels:
+    app: {{ .Values.global.transacao.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.global.transacao.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.transacao.name }}
+    spec:
+      containers:
+        - name: {{ .Values.global.transacao.name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          env:
+            - name: MYSQL_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Release.Name }}-db-configmap
+                  key: database_transacao_url
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-db-secret
+                  key: username
+            - name: MYSQL_PASSWORD 
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Release.Name }}-db-secret
+                  key: password
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: 1
+            limits:
+              memory: "2Gi"
+              cpu: 2

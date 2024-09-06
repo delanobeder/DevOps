@@ -1,0 +1,6 @@
+replicaCount: 1
+
+image:
+  repository: contatos/backend
+  tag: "latest"
+  pullPolicy: IfNotPresent

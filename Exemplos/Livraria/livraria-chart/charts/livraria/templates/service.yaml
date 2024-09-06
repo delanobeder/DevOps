@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.global.livraria.name }}
+  labels:
+    run: {{ .Values.global.livraria.name }}
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: {{ .Values.global.livraria.name }}
