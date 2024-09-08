@@ -1,0 +1,6 @@
+replicaCount: 1
+
+image:
+  repository: mongo
+  tag: "4.2"
+  pullPolicy: IfNotPresent
