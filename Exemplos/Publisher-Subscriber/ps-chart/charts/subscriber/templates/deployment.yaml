@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.global.subscriber.name }}
+  labels:
+    app: {{ .Values.global.subscriber.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.global.subscriber.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.subscriber.name }}
+    spec:
+      containers:
+        - name: {{ .Values.global.subscriber.name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: RABBITMQ_EXCHANGE
+              value: {{ .Values.global.rabbitmq.exchange }}
+            - name: RABBITMQ_QUEUE
+              value: {{ .Values.global.rabbitmq.queue }}
+            - name: RABBITMQ_ROUTINGKEY
+              value: {{ .Values.global.rabbitmq.rountingkey }}
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.subscriber.name }}-secret
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.global.subscriber.name }}-secret
+                  key: password
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"

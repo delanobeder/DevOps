@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    app: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          env:
+          - name: PORT 
+            value: "80"
+          - name: MONGO_INITDB_HOST
+            value: "{{ .Release.Name }}-db"
+          - name: MONGO_INITDB_ROOT_USERNAME 
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-db-secret
+                key: username
+          - name: MONGO_INITDB_ROOT_PASSWORD 
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-db-secret
+                key: password
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"

@@ -1,0 +1,9 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: {{ .Values.global.publisher.name }}-configmap
+data:
+  to_name: <Nome do Destinatário>
+  to_address: <Endereço de Email>
+  from_name: <Nome do Remetente>
+  from_address: <usuario>@gmail.com

@@ -1,0 +1,12 @@
+global:
+  publisher:
+    name: publisher
+  
+  subscriber:
+    name: subscriber
+
+  rabbitmq:
+    name: rabbitmq
+    exchange: "dsw.exchange"
+    queue: "dsw.queue"
+    rountingkey: "dsw.routingkey"

@@ -5,7 +5,7 @@ build_app_image() {
     ################################################
     # Gerando a imagem docker do app
     ################################################
-    
+
     cd app
     
     # eval ${minikube docker-env}
@@ -56,7 +56,7 @@ init_minikube() {
 
 while getopts ":ib" option; do
    case $option in
-      i) # initialize/start minikube
+      i) # init minikube
          init_minikube
          ;;
       b) # build images
@@ -67,33 +67,7 @@ while getopts ":ib" option; do
 done
 
 ################################################
-# Configurando o K8s (DB)
+# Instalando via helm
 ################################################
 
-cd K8s/db
-
-kubectl apply -f secret.yaml; kubectl create -f pv.yaml; kubectl create -f pvc.yaml;
-
-kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
-
-cd ../..
-
-################################################
-# Configurando o app
-################################################
-
-cd K8s/app
-
-kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name)
-
-kubectl apply -f deployment.yaml; kubectl apply -f service.yaml; 
-
-cd ../..
-
-################################################
-# Configurando o Ingress
-################################################
-
-cd K8s
-
-kubectl apply -f ingress.yaml
+helm install todolist todolist-chart

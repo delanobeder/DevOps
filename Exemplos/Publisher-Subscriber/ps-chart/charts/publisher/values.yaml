@@ -1,0 +1,8 @@
+replicaCount: 1
+
+image:
+  repository: ps/publisher
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+  configmap-template: false

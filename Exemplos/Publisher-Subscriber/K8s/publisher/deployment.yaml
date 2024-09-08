@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: publisher
+  labels:
+    app: publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: publisher
+  template:
+    metadata:
+      labels:
+        app: publisher
+    spec:
+      containers:
+        - name: publisher
+          image: ps/publisher:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: RABBITMQ_EXCHANGE
+              value: "dsw.exchange"
+            - name: RABBITMQ_QUEUE
+              value: "dsw.queue"
+            - name: RABBITMQ_ROUTINGKEY
+              value: "dsw.routingkey"
+            - name: TO_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: publisher-configmap
+                  key: to_name
+            - name: TO_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: publisher-configmap
+                  key: to_address
+            - name: FROM_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: publisher-configmap
+                  key: from_name
+            - name: FROM_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: publisher-configmap
+                  key: from_address
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"

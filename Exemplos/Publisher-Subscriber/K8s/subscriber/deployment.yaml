@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subscriber
+  labels:
+    app: subscriber
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subscriber
+  template:
+    metadata:
+      labels:
+        app: subscriber
+    spec:    
+      containers:
+        - name: subscriber
+          image: ps/subscriber:latest
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: RABBITMQ_EXCHANGE
+              value: "dsw.exchange"
+            - name: RABBITMQ_QUEUE
+              value: "dsw.queue"
+            - name: RABBITMQ_ROUTINGKEY
+              value: "dsw.routingkey"
+            - name: USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: subscriber-secret
+                  key: username
+            - name: PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: subscriber-secret
+                  key: password
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"

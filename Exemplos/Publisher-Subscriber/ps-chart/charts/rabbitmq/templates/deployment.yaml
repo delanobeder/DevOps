@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.global.rabbitmq.name }}
+  labels:
+    app: {{ .Values.global.rabbitmq.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.global.rabbitmq.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.rabbitmq.name }}
+    spec:
+      containers:
+        - name: {{ .Values.global.rabbitmq.name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 5672
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"

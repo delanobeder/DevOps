@@ -73,13 +73,13 @@ init_minikube() {
 
 while getopts ":ib" option; do
    case $option in
+      i) # init minikube
+         init_minikube
+         ;;
       b) # build images
          build_backend_image
          build_frontend_image
          load_mysql_image
-         ;;
-      i) # init minikube
-         init_minikube
          ;;
    esac
 done

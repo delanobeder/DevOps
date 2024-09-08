@@ -1,26 +1,45 @@
 #!/bin/bash
 
-build_app_image() {
+build_publisher_image() {
     
     ################################################
-    # Gerando a imagem docker do app
+    # Gerando a imagem docker do publisher
     ################################################
     
-    cd app
-    
+    cd Publisher
+
     # eval ${minikube docker-env}
 
-    docker build . -t todolist/app
-
+    mvn package clean
+        
     # minikube image load apenas funciona no docker 24
-    
-    minikube image load todolist/app
+
+    minikube image load ps/publisher
 
     cd ..
 }
 
-load_mongo_image() {
-    minikube image load mongo:4.2
+build_subscriber_image() {
+    
+    ################################################
+    # Gerando a imagem docker do subscriber
+    ################################################
+    
+    cd Subscriber
+    
+    # eval ${minikube docker-env}
+
+    mvn package clean
+        
+    # minikube image load apenas funciona no docker 24
+
+    minikube image load ps/subscriber
+
+    cd ..
+}
+
+load_rabbitmq_image() {
+    minikube image load rabbitmq:3-management
 }
 
 init_minikube() {
@@ -56,44 +75,19 @@ init_minikube() {
 
 while getopts ":ib" option; do
    case $option in
-      i) # initialize/start minikube
+      i) # initialize minikube
          init_minikube
          ;;
       b) # build images
-         build_app_image
-         load_mongo_image
+         build_publisher_image
+         build_subscriber_image
+         load_rabbitmq_image
          ;;
    esac
 done
 
 ################################################
-# Configurando o K8s (DB)
+# Instalando via helm
 ################################################
 
-cd K8s/db
-
-kubectl apply -f secret.yaml; kubectl create -f pv.yaml; kubectl create -f pvc.yaml;
-
-kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
-
-cd ../..
-
-################################################
-# Configurando o app
-################################################
-
-cd K8s/app
-
-kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name)
-
-kubectl apply -f deployment.yaml; kubectl apply -f service.yaml; 
-
-cd ../..
-
-################################################
-# Configurando o Ingress
-################################################
-
-cd K8s
-
-kubectl apply -f ingress.yaml
+helm install ps ps-chart

@@ -1,0 +1,14 @@
+apiVersion: v2
+name: publisher-subscriber
+description: A Helm chart for Publisher-Subscriber application
+type: application
+version: 0.1.0
+appVersion: "1.16.0"
+
+dependencies:
+  - name: "publisher"
+    version: "0.1.0"
+  - name: "rabbitmq"
+    version: "0.1.0"
+  - name: "subscriber"
+    version: "0.1.0"

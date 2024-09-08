@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.global.publisher.name }}
+  labels:
+    app: {{ .Values.global.publisher.name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.global.publisher.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.global.publisher.name }}
+    spec:
+      containers:
+        - name: {{ .Values.global.publisher.name }}
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: RABBITMQ_EXCHANGE
+              value: {{ .Values.global.rabbitmq.exchange }}
+            - name: RABBITMQ_QUEUE
+              value: {{ .Values.global.rabbitmq.queue }}
+            - name: RABBITMQ_ROUTINGKEY
+              value: {{ .Values.global.rabbitmq.rountingkey }}
+            - name: TO_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.global.publisher.name }}-configmap
+                  key: to_name
+            - name: TO_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.global.publisher.name }}-configmap
+                  key: to_address
+            - name: FROM_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.global.publisher.name }}-configmap
+                  key: from_name
+            - name: FROM_ADDRESS
+              valueFrom:
+                configMapKeyRef:
+                  name: {{ .Values.global.publisher.name }}-configmap
+                  key: from_address
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"

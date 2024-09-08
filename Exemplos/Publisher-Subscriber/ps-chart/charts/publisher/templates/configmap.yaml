@@ -1,0 +1,9 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: {{ .Values.global.publisher.name }}-configmap
+data:
+  to_name: Delano Beder
+  to_address: delano@ufscar.br
+  from_name: Delano Beder
+  from_address: delanobeder@gmail.com

@@ -8,6 +8,8 @@ build_livraria_image() {
     
     cd LivrariaMVC
     
+    # eval ${minikube docker-env}
+
     mvn package clean
     
     # minikube image load apenas funciona no docker 24
@@ -24,9 +26,13 @@ build_transacao_image() {
     ################################################
     
     cd TransacaoAPI
+
+    # eval ${minikube docker-env}
     
     mvn package clean
-    
+
+    # minikube image load apenas funciona no docker 24
+
     minikube image load livraria/transacao-api
 
     cd ..
@@ -64,18 +70,18 @@ init_minikube() {
 }
 
 ################################################
-# Verificando flag -b
+# Verificando flag -ib
 ################################################
 
-while getopts ":bi" option; do
+while getopts ":bib" option; do
    case $option in
+      i) # init minikube
+         init_minikube
+         ;;
       b) # build images
          build_livraria_image
          build_transacao_image
          load_mysql_image
-         ;;
-      i) # init minikube
-         init_minikube
          ;;
    esac
 done

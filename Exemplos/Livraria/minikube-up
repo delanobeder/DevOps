@@ -8,6 +8,8 @@ build_livraria_image() {
     
     cd LivrariaMVC
     
+    # eval ${minikube docker-env}
+
     mvn package clean
     
     # minikube image load apenas funciona no docker 24
@@ -25,8 +27,12 @@ build_transacao_image() {
     
     cd TransacaoAPI
     
+    # eval ${minikube docker-env}
+
     mvn package clean
     
+    # minikube image load apenas funciona no docker 24
+
     minikube image load livraria/transacao-api
 
     cd ..
@@ -36,40 +42,47 @@ load_mysql_image() {
     minikube image load mysql:5.7
 }
 
+init_minikube() {
+
+    ################################################
+    # Inicializando o Minikube
+    ################################################
+
+    minikube start
+
+    ################################################
+    # Habilitando o Ingress
+    ################################################
+
+    minikube image load k8s.gcr.io/ingress-nginx/controller:v1.9.4
+
+    minikube addons enable ingress
+
+    ################################################
+    # Inicializando o DashBoard
+    ################################################
+
+    minikube addons enable dashboard
+
+    minikube addons enable metrics-server
+
+    minikube dashboard &
+}
+
 ################################################
-# Inicializando o Minikube
+# Verificando flag -ib
 ################################################
 
-minikube start
-
-################################################
-# Habilitando o Ingress
-################################################
-
-minikube image load k8s.gcr.io/ingress-nginx/controller:v1.9.4
-
-minikube addons enable ingress
-
-################################################
-# Inicializando o DashBoard
-################################################
-
-minikube addons enable dashboard
-
-minikube addons enable metrics-server
-
-minikube dashboard &
-
-################################################
-# Verificando flag -b
-################################################
-
-while getopts ":b" option; do
+while getopts ":ib" option; do
    case $option in
+      i) # initialize/start minikube
+         init_minikube
+         ;;
       b) # build images
          build_livraria_image
          build_transacao_image
          load_mysql_image
+         ;;
    esac
 done
 
