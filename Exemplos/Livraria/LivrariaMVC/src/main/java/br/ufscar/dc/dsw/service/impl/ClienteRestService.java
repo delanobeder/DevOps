@@ -1,20 +1,14 @@
 package br.ufscar.dc.dsw.service.impl;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
-
+import org.springframework.web.client.RestClient;
 import br.ufscar.dc.dsw.domain.Cartao;
 import br.ufscar.dc.dsw.domain.Transacao;
 import br.ufscar.dc.dsw.service.spec.IClienteRestService;
@@ -22,64 +16,60 @@ import br.ufscar.dc.dsw.service.spec.IClienteRestService;
 @Service
 public class ClienteRestService implements IClienteRestService {
 
-	@Autowired
-	private RestTemplate restTemplate;
-
 	@Value("${TRANSACAO_API_URL:http://localhost:8081}")
 	private String URL_BASE;
 
-	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		return builder.build();
-	}
+	RestClient restClient = RestClient.create();
 
+	@Override
 	public Cartao buscaCartao(Long id) {
-		Cartao cartao = restTemplate.getForObject(URL_BASE + "/cartoes/" + id, Cartao.class);
+		Cartao cartao = restClient.get()
+				.uri(URL_BASE + "/cartoes/" + id)
+				.accept(MediaType.APPLICATION_JSON)
+				.retrieve()
+				.body(Cartao.class);
 		return cartao;
 	}
 
 	public List<Cartao> buscaCartoes(String cpf) {
-		Cartao[] cartoes = restTemplate.getForObject(URL_BASE + "/cartoes/cpf/" + cpf, Cartao[].class);
-		return Arrays.asList(cartoes);
+		List<Cartao> list = restClient.get()
+                .uri(URL_BASE + "/cartoes/cpf/" + cpf)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<Cartao>>() {
+                });
+        return list;
 	}
 
 	public Transacao buscaTransacao(Long id) {
-		return restTemplate.getForObject(URL_BASE + "/transacoes/" + id, Transacao.class);
+		Transacao transacao = restClient.get()
+				.uri(URL_BASE + "/transacoes/" + id)
+				.accept(MediaType.APPLICATION_JSON)
+				.retrieve()
+				.body(Transacao.class);
+		return transacao;
 	}
 
+	@Override
 	public Long salva(Transacao transacao) {
+		ResponseEntity<Transacao> res = restClient.post()
+    		    .uri(URL_BASE + "/transacoes")
+    		    .contentType(MediaType.APPLICATION_JSON)
+    		    .body(transacao)
+    		    .retrieve()
+    		    .toEntity(Transacao.class);
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-		HttpEntity<Transacao> entity = new HttpEntity<Transacao>(transacao, headers);
-
-		ResponseEntity<Transacao> res = restTemplate.postForEntity(URL_BASE + "/transacoes", entity,
-				Transacao.class);
 		Transacao t = res.getBody();
 
 		return t.getId();
 	}
 
-//	public boolean remove(Long id) {
-//		Transacao transacao = this.buscaTransacao(id);
-//		transacao.setStatus("CANCELADA");
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//		HttpEntity<Transacao> entity = new HttpEntity<Transacao>(transacao, headers);
-//
-//		ResponseEntity<Transacao> res = restTemplate.exchange("http://localhost:8081/transacoes/" + id, HttpMethod.PUT,
-//				entity, Transacao.class);
-//
-//		return res.getStatusCode() == HttpStatus.OK;
-//	}
-
+	@Override
 	public boolean remove(Long id) {
-
-		try {
-			restTemplate.delete(URL_BASE + "/transacoes/" + id);
-			return true;
-		} catch (RestClientException e) {
-			return false;
-		}
+		ResponseEntity<Void> res = restClient.delete()
+    			  .uri(URL_BASE + "/transacoes/" + id)
+    			  .retrieve()
+    			  .toBodilessEntity();
+    	return res.getStatusCode() == HttpStatus.NO_CONTENT;
 	}
 }

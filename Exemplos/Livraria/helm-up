@@ -73,7 +73,7 @@ init_minikube() {
 # Verificando flag -ib
 ################################################
 
-while getopts ":bib" option; do
+while getopts ":ib" option; do
    case $option in
       i) # init minikube
          init_minikube

@@ -41,6 +41,14 @@ spec:
                 secretKeyRef:
                   name: livraria-db-secret
                   key: password
+            - name: TZ
+              value: America/Sao_Paulo
+            - name: LC_ALL
+              value: pt_BR.UTF-8
+            - name: LANG
+              value: pt_BR.UTF-8
+            - name: LANGUAGE
+              value: pt_BR.UTF-8
           resources:
             requests:
               memory: "1Gi"
