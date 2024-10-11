@@ -1,5 +1,17 @@
 #!/bin/bash
 
+load_image() {
+
+    # minikube image load apenas funciona no docker 24
+    
+    minikube image load $1
+
+    # Acredito que funciona para qualquer versão do docker
+    # docker image save -o image.tar $1
+    # minikube image load image.tar
+    # rm image.tar
+}
+
 build_backend_image() {
     
     ################################################
@@ -11,10 +23,8 @@ build_backend_image() {
     # eval ${minikube docker-env}
 
     mvn package clean
-        
-    # minikube image load apenas funciona no docker 24
-    
-    minikube image load contatos/backend
+            
+    load_image contatos/backend
 
     cd ..
 }
@@ -31,13 +41,13 @@ build_frontend_image() {
     
     docker build . -t contatos/frontend
     
-    minikube image load contatos/frontend
+    load_image contatos/frontend
 
     cd ..
 }
 
 load_mysql_image() {
-    minikube image load mysql:5.7
+    load_image mysql:5.7
 }
 
 init_minikube() {
