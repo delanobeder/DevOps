@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: todolist
+  name: {{ .Release.Name }}-app
   labels:
-    run: todolist
+    run: {{ .Release.Name }}-app
 spec:
   ports:
     - port: 80
       targetPort: 80
       protocol: TCP
   selector:
-    app: todolist
+    app: {{ .Release.Name }}-app
