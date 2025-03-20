@@ -1,0 +1,13 @@
+#!/bin/bash
+
+################################################
+# Desinstalando via Terraform
+################################################
+
+cd terraform
+
+terraform destroy -auto-approve
+
+rm -rf .terraform* terraform*
+
+
