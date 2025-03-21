@@ -10,44 +10,67 @@
 
    ```bash
    $ helm create hello-world
+   ```
+
+   
 
 2. Entre no diretório **hello-world** e remova os seguintes arquivos do diretório **templates**:
 
    - tests (diretório)
-
    - hpa.yaml
-
-   - ingress.yaml
-
    - NOTES.txt
-
    - serviceaccount.yaml
+
+   
 
 3. Ou seja, mantenha apenas os seguintes arquivos no diretório **templates**:
 
    - _helpers.tpl
+   - ingress.yaml
    - deployment.yaml
    - service.yaml
 
-4. Atualize o arquivo **templates/deployment.yaml** com o seguinte conteúdo:
+   
+
+4. Atualize o arquivo **templates/ingress.yaml** com o seguinte conteúdo:
+
+   ```yaml
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: hello-world-ingress
+   spec:
+     rules:
+     - host: k8s.local
+       http:
+         paths:
+         - path: /
+           pathType: Prefix
+           backend:
+             service:
+               name: {{ include "hello-world.name" . }}
+               port:
+                 number: 80
+   ```
+<div style="page-break-after: always"></div>
+5. Atualize o arquivo **templates/deployment.yaml** com o seguinte conteúdo:
 
    ```yaml
    apiVersion: apps/v1
    kind: Deployment
    metadata:
-     name: {{ include "hello-world.fullname" . }}
+     name: {{ include "hello-world.name" . }}
      labels:
-       app.kubernetes.io/name: {{ include "hello-world.name" . }}
-       helm.sh/chart: {{ include "hello-world.chart" . }}
+       app: {{ include "hello-world.name" . }}
    spec:
      replicas: {{ .Values.replicaCount }}
      selector:
        matchLabels:
-         app.kubernetes.io/name: {{ include "hello-world.name" . }}
+         app: {{ include "hello-world.name" . }}
      template:
        metadata:
          labels:
-           app.kubernetes.io/name: {{ include "hello-world.name" . }}
+           app: {{ include "hello-world.name" . }}
        spec:
          containers:
            - name: {{ .Chart.Name }}
@@ -58,30 +81,32 @@
                  containerPort: 80
                  protocol: TCP
    ```
+
    
-5. Atualize o arquivo **templates/service.yaml** com o seguinte conteúdo:
+
+6. Atualize o arquivo **templates/service.yaml** com o seguinte conteúdo:
 
    ```yaml
    apiVersion: v1
    kind: Service
    metadata:
-     name: {{ include "hello-world.fullname" . }}
+     name: {{ include "hello-world.name" . }}
      labels:
-       app.kubernetes.io/name: {{ include "hello-world.name" . }}
-       helm.sh/chart: {{ include "hello-world.chart" . }}
+       run: {{ include "hello-world.name" . }}
    spec:
      type: {{ .Values.service.type }}
      ports:
        - port: {{ .Values.service.port }}
          targetPort: http
-         nodePort: 30000
          protocol: TCP
          name: http
      selector:
-       app.kubernetes.io/name: {{ include "hello-world.name" . }}
+       app: {{ include "hello-world.name" . }}
    ```
-   
-6. Por fim, atualize o arquivo **values.yaml** com o seguinte conteúdo:
+
+   <div style="page-break-after: always"></div>
+
+7. Por fim, atualize o arquivo **values.yaml** com o seguinte conteúdo:
 
    ```yaml
    replicaCount: 1
@@ -94,7 +119,9 @@
      port: 80
    ```
 
-7. Entre no diretório **hello-world** e execute o seguinte comando:
+   
+
+8. Entre no diretório **hello-world** e execute o seguinte comando:
 
    ```bash
    $ cd hello-world
@@ -104,9 +131,10 @@
    
    1 chart(s) linted, 0 chart(s) failed
    ```
-<div style="page-break-after: always"></div>
 
-8. No mesmo diretório, execute o seguinte comando:
+   
+
+9. No mesmo diretório, execute o seguinte comando:
 
    ```bash
    $ helm template .
@@ -115,38 +143,35 @@
    apiVersion: v1
    kind: Service
    metadata:
-     name: release-name-hello-world
+     name: hello-world
      labels:
-       app.kubernetes.io/name: hello-world
-       helm.sh/chart: hello-world-0.1.0
+       run: hello-world
    spec:
      type: NodePort
      ports:
        - port: 80
          targetPort: http
-         nodePort: 30000
          protocol: TCP
          name: http
      selector:
-       app.kubernetes.io/name: hello-world
+       app: hello-world
    ---
    # Source: hello-world/templates/deployment.yaml
    apiVersion: apps/v1
    kind: Deployment
    metadata:
-     name: release-name-hello-world
+     name: hello-world
      labels:
-       app.kubernetes.io/name: hello-world
-       helm.sh/chart: hello-world-0.1.0
+       app: hello-world
    spec:
      replicas: 1
      selector:
        matchLabels:
-         app.kubernetes.io/name: hello-world
+         app: hello-world
      template:
        metadata:
          labels:
-           app.kubernetes.io/name: hello-world
+           app: hello-world
        spec:
          containers:
            - name: hello-world
@@ -156,11 +181,29 @@
                - name: http
                  containerPort: 80
                  protocol: TCP
+   ---
+   # Source: hello-world/templates/ingress.yaml
+   apiVersion: networking.k8s.io/v1
+   kind: Ingress
+   metadata:
+     name: hello-world-ingress
+   spec:
+     rules:
+     - host: k8s.local
+       http:
+         paths:
+         - path: /
+           pathType: Prefix
+           backend:
+             service:
+               name: hello-world
+               port:
+                 number: 80
    ```
 
-   <div style="page-break-after: always"></div>
+   
 
-9. No mesmo diretório, execute o seguinte comando:
+10. No mesmo diretório, execute o seguinte comando:
 
    ```bash
    $ helm install hello-world .
@@ -172,13 +215,13 @@
    TEST SUITE: None
    ```
 
-10. Execute o seguinte comando e acesse a url http://192.168.49.2:30000 (através de um navegador)
+   
 
-    ```bash
-    $ minikube service hello-world
-    ```
+11. Acesse a url http://k8s.local (através de um navegador)
 
-11. Atualize o arquivo values.yaml com o seguinte conteúdo:
+    <div style="page-break-after: always"></div>
+
+12. Atualize o arquivo **values.yaml** com o seguinte conteúdo:
 
     ```yaml
     replicaCount: 1
@@ -191,7 +234,9 @@
       port: 80
     ```
 
-12. Execute o seguinte comando e acesse novamente a url http://192.168.49.2:30000
+    
+
+13. Execute o seguinte comando e acesse novamente a url http://k8s.local
 
     ```bash
     $ helm upgrade hello-world .
@@ -204,18 +249,24 @@
     TEST SUITE: None
     ```
 
-13. Execute o seguinte comando e acesse novamente a url http://192.168.49.2:30000
+    
+
+14. Execute o seguinte comando e acesse novamente a url http://k8s.local
 
     ```bash
     $ helm rollback hello-world 1
     Rollback was a success! Happy Helming!
     ```
 
-14. Por fim, no mesmo diretório, execute o seguinte comando:
+    
+
+15. Por fim, no mesmo diretório, execute o seguinte comando:
 
     ```bash
     $ helm uninstall hello-world
     release "hello-world" uninstalled
     ```
 
-15. Fim
+    
+
+16. Fim
