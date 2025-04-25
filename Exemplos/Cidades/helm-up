@@ -1,0 +1,105 @@
+#!/bin/bash
+
+load_image() {
+
+    # minikube image load apenas funciona no docker 24
+    
+    minikube image load $1
+
+    # Acredito que funciona para qualquer versão do docker
+    # docker image save -o image.tar $1
+    # minikube image load image.tar
+    # rm image.tar
+}
+
+build_backend_image() {
+    
+    ################################################
+    # Gerando a imagem docker do backend
+    ################################################
+    
+    cd backend
+    
+    # eval ${minikube docker-env}
+
+    mvn package -DskipTests
+
+    docker build . -t cidades/backend
+    
+    mvn clean
+
+    load_image cidades/frontend
+
+    cd ..
+}
+
+build_frontend_image() {
+    
+    ################################################
+    # Gerando a imagem docker do frontend
+    ################################################
+    
+    cd frontend
+    
+    # eval ${minikube docker-env}
+    
+    docker build . -t cidades/frontend
+    
+    load_image cidades/frontend
+
+    cd ..
+}
+
+load_mysql_image() {
+    load_image mysql:5.7
+}
+
+init_minikube() {
+
+    ################################################
+    # Inicializando o Minikube
+    ################################################
+
+    minikube start
+
+    ################################################
+    # Habilitando o Ingress
+    ################################################
+
+    minikube image load k8s.gcr.io/ingress-nginx/controller:v1.9.4
+
+    minikube addons enable ingress
+
+    ################################################
+    # Inicializando o DashBoard
+    ################################################
+
+    minikube addons enable dashboard
+
+    minikube addons enable metrics-server
+
+    minikube dashboard &
+}
+
+################################################
+# Verificando flag -b
+################################################
+
+while getopts ":ib" option; do
+   case $option in
+      i) # init minikube
+         init_minikube
+         ;;
+      b) # build images
+         build_backend_image
+         build_frontend_image
+         load_mysql_image
+         ;;
+   esac
+done
+
+################################################
+# Instalando via helm
+################################################
+
+helm install cidades cidades-chart

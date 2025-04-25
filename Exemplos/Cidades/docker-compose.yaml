@@ -1,0 +1,32 @@
+services:
+
+  frontend:
+    image: cidades/frontend
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    
+  backend:
+    image: cidades/backend
+    restart: always
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_URL: jdbc:mysql://db:3306/Cidades?createDatabaseIfNotExist=true
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck: #para garantir que o db vai estar completamente up antes de rodar o app
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+  
+volumes:
+  mysql-data:

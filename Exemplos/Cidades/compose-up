@@ -1,0 +1,45 @@
+#!/bin/bash
+
+build_backend_image() {
+    
+    ################################################
+    # Gerando a imagem docker do backend
+    ################################################
+    
+    cd backend
+    
+    mvn package -DskipTests
+
+    docker build . -t cidades/backend
+    
+    mvn clean
+    
+    cd ..
+}
+
+build_frontend_image() {
+    
+    ################################################
+    # Gerando a imagem docker do frontend
+    ################################################
+    
+    cd frontend
+    
+    docker build . -t cidades/frontend
+    
+    cd ..
+}
+
+while getopts ":b" option; do
+   case $option in
+      b) # build images
+         build_backend_image
+         build_frontend_image
+   esac
+done
+
+################################################
+# Executando o docker compose (UP)
+################################################
+
+docker compose up

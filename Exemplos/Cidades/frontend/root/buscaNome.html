@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>AJAX (Autocomplete)</title>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-ui.min.js"></script>
+	<link rel="stylesheet" href="css/jquery-ui.min.css">
+	<script th:inline="javascript">
+		$(function () {
+			var base = window.location.origin;
+			$("#cidade").autocomplete({
+				minLength: 2,
+				source: base + '/cidades/filtros',
+				select: function (event, ui) {
+					alert("Selecionado: " + ui.item.value);
+				}
+			});
+		});
+	</script>
+</head>
+<div class="ui-widget">
+	<label for="cidade">Nome</label> <input id="cidade" name="cidade" placeholder="Pelo menos 2 caracteres">
+</div>
+<br />
+<a href="/">Voltar</a>
+</body>
+
+</html>
