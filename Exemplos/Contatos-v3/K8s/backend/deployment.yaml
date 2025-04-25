@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: contatos-v3/backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: contatos-db-secret
+                  key: username
+            - name: MYSQL_PASSWORD 
+              valueFrom:
+                secretKeyRef:
+                  name: contatos-db-secret
+                  key: password
+            - name: MYSQL_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: contatos-db-configmap
+                  key: host
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: contatos-db-configmap
+                  key: database
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"

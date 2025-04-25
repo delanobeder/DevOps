@@ -1,0 +1,44 @@
+services:
+  frontend:
+    image: contatos-v3/frontend
+    restart: always
+    ports:
+      - "80:80"
+    networks: 
+      - frontend
+    depends_on:
+      backend:
+        condition: service_started
+  
+  backend:
+    image: contatos-v3/backend
+    restart: always
+    networks:
+      - backend
+      - frontend
+    environment:
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_HOST: db
+      MYSQL_DATABASE: Contatos
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: Contatos
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - backend
+    healthcheck: #para garantir que o db vai estar completamente up antes de rodar o app
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+  
+networks: 
+  frontend:
+  backend:
+volumes:
+  mysql-data:
