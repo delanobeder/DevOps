@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: contatos/frontend
+    image: contatos-v3/frontend
     restart: always
     ports:
       - "80:80"
@@ -11,7 +11,7 @@ services:
         condition: service_started
   
   backend:
-    image: contatos/backend
+    image: contatos-v3/backend
     restart: always
     networks:
       - backend
@@ -19,7 +19,8 @@ services:
     environment:
       MYSQL_USER: root
       MYSQL_PASSWORD: root
-      MYSQL_URL: jdbc:mysql://db:3306/Contatos?createDatabaseIfNotExist=true
+      MYSQL_HOST: db
+      MYSQL_DATABASE: Contatos
     depends_on:
       db:
         condition: service_healthy
@@ -28,13 +29,17 @@ services:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: Contatos
     volumes:
       - mysql-data:/var/lib/mysql
     networks:
       - backend
-    healthcheck: #para garantir que o db vai estar completamente up antes de rodar o app
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-  
+    healthcheck: # Para garantir que o db vai estar completamente up antes de subir os demais conteineres
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="root" --silent']
+      interval: 3s
+      retries: 5
+      start_period: 30s
+      
 networks: 
   frontend:
   backend:

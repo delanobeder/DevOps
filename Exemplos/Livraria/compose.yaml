@@ -1,15 +1,16 @@
 services:
    db:
-    image: mysql
+    image: mysql:5.7
     env_file:
       - .env
     volumes:
       - mysql-data:/var/lib/mysql
-    healthcheck: #para garantir que o db vai estar completamente up antes de rodar o app
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      timeout: 5s
-      retries: 10
-  
+    healthcheck: # Para garantir que o db vai estar completamente up antes de subir os demais conteineres
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="root" --silent']
+      interval: 3s
+      retries: 5
+      start_period: 30s
+      
    transacao:
     image: livraria/transacao-api
     restart: always
