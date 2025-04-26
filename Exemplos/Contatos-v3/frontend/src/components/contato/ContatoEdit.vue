@@ -89,7 +89,7 @@ export default {
             timer: 1500
           })
           this.isSaving = false
-          this.$router.push('/contatos')
+          this.$router.push('/')
           return response
         })
         .catch(error => {
