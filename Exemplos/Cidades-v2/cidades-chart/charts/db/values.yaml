@@ -1,0 +1,6 @@
+replicaCount: 1
+
+image:
+  repository: cidades/db
+  tag: "latest"
+  pullPolicy: IfNotPresent

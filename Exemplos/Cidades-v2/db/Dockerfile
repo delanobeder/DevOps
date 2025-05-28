@@ -1,0 +1,11 @@
+FROM mysql:5.7
+
+ENV MYSQL_ROOT_PASSWORD root
+ENV MYSQL_DATABASE Cidades
+ENV MYSQL_CHARACTER_SET utf8mb4 
+ENV MYSQL_COLLATION utf8mb4_unicode_ci
+ENV LANG C.UTF-8
+
+COPY init.sql /docker-entrypoint-initdb.d
+
+EXPOSE 3306

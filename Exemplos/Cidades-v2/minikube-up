@@ -1,0 +1,155 @@
+#!/bin/bash
+
+load_image() {
+
+    # minikube image load apenas funciona no docker 24
+    
+    minikube image load $1
+
+    # Acredito que funciona para qualquer versão do docker
+    # docker image save -o image.tar $1
+    # minikube image load image.tar
+    # rm image.tar
+}
+
+build_db_image() {
+    
+    ################################################
+    # Gerando a imagem docker do db
+    ################################################
+    
+    cd db
+    
+    docker build . -t cidades/db
+    
+    load_image cidades/db
+
+    cd ..
+}
+
+build_backend_image() {
+    
+    ################################################
+    # Gerando a imagem docker do backend
+    ################################################
+    
+    cd backend
+    
+    # eval ${minikube docker-env}
+
+    mvn package -DskipTests
+
+    docker build . -t cidades/backend
+    
+    mvn clean
+
+    load_image cidades/backend
+
+    cd ..
+}
+
+build_frontend_image() {
+    
+    ################################################
+    # Gerando a imagem docker do frontend
+    ################################################
+    
+    cd frontend
+    
+    # eval ${minikube docker-env}
+    
+    docker build . -t cidades/frontend
+    
+    load_image cidades/frontend
+
+    cd ..
+}
+
+load_mysql_image() {
+    minikube image load 
+}
+
+init_minikube() {
+
+    ################################################
+    # Inicializando o Minikube
+    ################################################
+
+    minikube start
+
+    ################################################
+    # Habilitando o Ingress
+    ################################################
+
+    minikube addons enable ingress
+
+    ################################################
+    # Inicializando o DashBoard
+    ################################################
+
+    minikube addons enable dashboard
+
+    minikube addons enable metrics-server
+
+    minikube dashboard &
+}
+
+################################################
+# Verificando flags -ib
+################################################
+
+while getopts ":ib" option; do
+   case $option in
+      i) # initialize/start minikube
+         init_minikube
+         ;;  
+      b) # build images
+         build_db_image
+         build_backend_image
+         build_frontend_image
+         load_image mysql:5.7
+         ;;
+   esac
+done
+
+################################################
+# Configurando o K8s (DB)
+################################################
+
+cd K8s/db
+
+kubectl apply -f secret.yaml; kubectl create -f pv.yaml; kubectl create -f pvc.yaml;
+
+kubectl apply -f deployment.yaml; kubectl apply -f service.yaml; kubectl apply -f configmap.yaml; 
+
+cd ../..
+
+################################################
+# Configurando o backend
+################################################
+
+cd K8s/backend
+
+kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name)
+
+kubectl apply -f deployment.yaml; kubectl apply -f service.yaml; 
+
+cd ../..
+
+################################################
+# Configurando o frontend
+################################################
+
+cd K8s/frontend
+
+kubectl apply -f deployment.yaml; kubectl apply -f service.yaml;  
+
+cd ../..
+
+################################################
+# Configurando o Ingress
+################################################
+
+cd K8s
+
+kubectl apply -f ingress.yaml

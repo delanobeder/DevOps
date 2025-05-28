@@ -1,0 +1,44 @@
+services:
+  proxy:
+    image: traefik:v3.1.2
+    command: --providers.docker
+    ports:
+      - 80:80
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  
+  frontend:
+    image: cidades/frontend
+    restart: always
+    labels:
+      traefik.http.routers.frontend.rule: "Host(`localhost`)"
+      traefik.http.services.frontend.loadbalancer.server.port: 8080
+    depends_on:
+      - backend
+
+  backend:
+    image: cidades/backend
+    restart: always
+    environment:
+      MYSQL_HOST: db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    labels:
+      traefik.http.routers.backend.rule: "Host(`localhost`) && PathPrefix(`/backend`)"
+      traefik.http.services.backend.loadbalancer.server.port: 8080      
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: cidades/db
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck: #para garantir que o db vai estar completamente up antes de subir os demais conteineres
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="root" --silent']
+      interval: 3s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  mysql-data:
