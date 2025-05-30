@@ -22,9 +22,9 @@ build_backend_image() {
     
     # eval ${minikube docker-env}
 
-    docker build . -t contatos-v3/backend
+    docker build . -t devopsufscar/contatos-v3-backend
 
-    load_image contatos-v3/backend
+    load_image devopsufscar/contatos-v3-backend
 
     cd ..
 }
@@ -39,9 +39,9 @@ build_frontend_image() {
     
     # eval ${minikube docker-env}
     
-    docker build . -t contatos-v3/frontend
+    docker build . -t devopsufscar/contatos-v3-frontend
     
-    load_image contatos-v3/frontend
+    load_image devopsufscar/contatos-v3-frontend
 
     cd ..
 }

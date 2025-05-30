@@ -8,7 +8,7 @@ build_backend_image() {
     
     cd backend
     
-    docker build . -t contatos-v3/backend
+    docker build . -t devopsufscar/contatos-v3-backend
     
     cd ..
 }
@@ -21,7 +21,7 @@ build_frontend_image() {
     
     cd frontend
     
-    docker build . -t contatos-v3/frontend
+    docker build . -t devopsufscar/contatos-v3-frontend
     
     cd ..
 }

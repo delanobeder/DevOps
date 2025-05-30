@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: contatos-v3/frontend:latest
+          image: devopsufscar/contatos-v3-frontend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

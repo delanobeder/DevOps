@@ -1,6 +1,6 @@
 services:
   frontend:
-    image: contatos-v3/frontend
+    image: devopsufscar/contatos-v3-frontend
     restart: always
     ports:
       - "80:80"
@@ -11,7 +11,7 @@ services:
         condition: service_started
   
   backend:
-    image: contatos-v3/backend
+    image: devopsufscar/contatos-v3-backend
     restart: always
     networks:
       - backend
