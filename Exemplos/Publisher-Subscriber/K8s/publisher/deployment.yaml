@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: publisher
-          image: ps/publisher:latest
+          image: devopsufscar/ps-publisher:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

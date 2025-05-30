@@ -6,13 +6,13 @@ remove_images() {
     # Removendo a imagem docker do publisher
     ################################################
     
-    docker rmi ps/publisher
+    docker rmi devopsufscar/ps-publisher
     
     ################################################
     # Gerando a imagem docker do subscriber
     ################################################
     
-    docker rmi ps/subscriber
+    docker rmi devopsufscar/ps-subscriber
     
     ################################################
     # Executando o docker compose (DOWN)

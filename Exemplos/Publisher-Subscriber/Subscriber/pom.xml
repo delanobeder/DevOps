@@ -79,7 +79,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<repository>ps/subscriber</repository>
+					<repository>devopsufscar/ps-subscriber</repository>
 					<buildArgs>
 						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
 					</buildArgs>

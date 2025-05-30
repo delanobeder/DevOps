@@ -1,6 +1,6 @@
 replicaCount: 1
 
 image:
-  repository: ps/subscriber
+  repository: devopsufscar/ps-subscriber
   tag: "latest"
   pullPolicy: IfNotPresent

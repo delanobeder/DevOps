@@ -14,7 +14,7 @@ build_publisher_image() {
         
     # minikube image load apenas funciona no docker 24
 
-    minikube image load ps/publisher
+    minikube image load devopsufscar/ps-publisher
 
     cd ..
 }
@@ -33,7 +33,7 @@ build_subscriber_image() {
         
     # minikube image load apenas funciona no docker 24
 
-    minikube image load ps/subscriber
+    minikube image load devopsufscar/ps-subscriber
 
     cd ..
 }

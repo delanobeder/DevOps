@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: ps/publisher
+  repository: devopsufscar/ps-publisher
   tag: "latest"
   pullPolicy: IfNotPresent
 

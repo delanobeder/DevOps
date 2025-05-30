@@ -15,9 +15,9 @@
 
 2. Entre no diretório **Exemplos/Publisher-Subscriber**
 
-3. Entre no diretório **Publisher** e faça o **build** da imagem (***ps/publisher***)
+3. Entre no diretório **Publisher** e faça o **build** da imagem (***devopsufscar/ps-publisher***)
 
-   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***ps/publisher***).
+   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***devopsufscar/ps-publisher***).
 
    ```bash
    $ cd Publisher
@@ -25,9 +25,9 @@
    $ cd ..
    ```
 
-4. Entre no diretório **Subscriber** e faça o **build** da imagem (***ps/subscriber***)
+4. Entre no diretório **Subscriber** e faça o **build** da imagem (***devopsufscar/ps-subscriber***)
 
-   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***ps/subscriber***).
+   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***devopsufscar/ps-subscriber***).
 
    ```bash
    $ cd Subscriber

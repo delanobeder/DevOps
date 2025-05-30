@@ -73,7 +73,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<repository>ps/publisher</repository>
+					<repository>devopsufscar/ps-publisher</repository>
 					<buildArgs>
 						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
 					</buildArgs>

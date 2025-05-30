@@ -16,7 +16,7 @@ spec:
     spec:    
       containers:
         - name: subscriber
-          image: ps/subscriber:latest
+          image: devopsufscar/ps-subscriber:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: RABBITMQ_EXCHANGE
