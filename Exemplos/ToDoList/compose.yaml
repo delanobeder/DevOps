@@ -1,6 +1,6 @@
 services:
   app:
-    image: todolist/app
+    image: devopsufscar/todolist-app
     env_file:
       - .env
     ports:

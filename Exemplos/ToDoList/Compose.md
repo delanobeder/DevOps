@@ -13,11 +13,11 @@
 
 2. Entre no diretório **Exemplos/ToDoList**
 
-3. Entre no diretório **app**app e faça o **build** da imagem (***todolist/app***)
+3. Entre no diretório **app**app e faça o **build** da imagem (***devopsufscar/todolist-app***)
 
    ```bash
    $ cd app
-   $ docker build . -t todolist/app
+   $ docker build . -t devopsufscar/todolist-app
    $ cd ..
    ```
 

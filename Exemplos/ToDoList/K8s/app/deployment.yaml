@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: todolist
-          image: todolist/app:latest
+          image: devopsufscar/todolist-app:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80

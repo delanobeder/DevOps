@@ -29,7 +29,7 @@ resource "kubernetes_deployment" "app-deployment" {
       spec {
         container {
           name  = var.release_name
-          image = "todolist/app:latest"
+          image = "devopsufscar/todolist-app:latest"
           image_pull_policy = "IfNotPresent"
           port {
             container_port = "80"

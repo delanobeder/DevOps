@@ -8,7 +8,7 @@ build_app_image() {
     
     cd app
     
-    docker build . -t todolist/app
+    docker build . -t devopsufscar/todolist-app
     
     cd ..
 }

@@ -1,6 +1,6 @@
 replicaCount: 1
 
 image:
-  repository: todolist/app
+  repository: devopsufscar/todolist-app
   tag: "latest"
   pullPolicy: IfNotPresent

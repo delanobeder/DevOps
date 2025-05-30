@@ -10,11 +10,11 @@ build_app_image() {
     
     # eval ${minikube docker-env}
 
-    docker build . -t todolist/app
+    docker build . -t devopsufscar/todolist-app
 
     # minikube image load apenas funciona no docker 24
     
-    minikube image load todolist/app
+    minikube image load devopsufscar/todolist-app
 
     cd ..
 }
