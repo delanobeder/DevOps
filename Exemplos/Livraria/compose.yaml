@@ -12,7 +12,7 @@ services:
       start_period: 30s
       
    transacao:
-    image: livraria/transacao-api
+    image: devopsufscar/transacao-api
     restart: always
     env_file:
       - .env
@@ -22,7 +22,7 @@ services:
         condition: service_healthy
 
    livrariamvc:
-    image: livraria/livraria-mvc
+    image: devopsufscar/livraria-mvc
     restart: always
     ports:
       - "80:8080"

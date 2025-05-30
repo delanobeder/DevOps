@@ -161,7 +161,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<repository>livraria/livraria-mvc</repository>
+					<repository>devopsufscar/livraria-mvc</repository>
 					<buildArgs>
 						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
 					</buildArgs>

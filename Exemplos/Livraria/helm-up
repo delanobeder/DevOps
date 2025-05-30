@@ -14,7 +14,7 @@ build_livraria_image() {
     
     # minikube image load apenas funciona no docker 24
     
-    minikube image load livraria/livraria-mvc
+    minikube image load devopsufscar/livraria-mvc
     
     cd ..
 }
@@ -33,7 +33,7 @@ build_transacao_image() {
 
     # minikube image load apenas funciona no docker 24
 
-    minikube image load livraria/transacao-api
+    minikube image load devopsufscar/transacao-api
 
     cd ..
 }

@@ -15,9 +15,9 @@
 
 2. Entre no diretório **Exemplos/Livraria**
 
-3. Entre no diretório **LivrariaMVC** e faça o **build** da imagem (***livraria/livraria-mvc***)
+3. Entre no diretório **LivrariaMVC** e faça o **build** da imagem (***devopsufscar/livraria-mvc***)
 
-   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***livraria/livraria-mvc***).
+   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***devopsufscar/livraria-mvc***).
 
    ```bash
    $ cd LivrariaMVC
@@ -25,9 +25,9 @@
    $ cd ..
    ```
 
-4. Entre no diretório **TransacaoAPI** e faça o **build** da imagem (***livraria/transacao-api***)
+4. Entre no diretório **TransacaoAPI** e faça o **build** da imagem (***devopsufscar/transacao-api***)
 
-   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***livraria/transacao-api***).
+   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***devopsufscar/transacao-api***).
 
    ```bash
    $ cd TransacaoAPI

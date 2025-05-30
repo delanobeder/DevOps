@@ -1,6 +1,6 @@
 replicaCount: 1
 
 image:
-  repository: livraria/transacao-api
+  repository: devopsufscar/transacao-api
   tag: "latest"
   pullPolicy: IfNotPresent

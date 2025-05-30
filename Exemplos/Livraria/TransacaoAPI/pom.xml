@@ -141,7 +141,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<repository>livraria/transacao-api</repository>
+					<repository>devopsufscar/transacao-api</repository>
 					<buildArgs>
 						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
 					</buildArgs>

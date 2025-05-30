@@ -1,6 +1,6 @@
 replicaCount: 1
 
 image:
-  repository: livraria/livraria-mvc
+  repository: devopsufscar/livraria-mvc
   tag: "latest"
   pullPolicy: IfNotPresent

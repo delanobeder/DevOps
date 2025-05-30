@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: transacao-api
-          image: livraria/transacao-api:latest
+          image: devopsufscar/transacao-api:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
