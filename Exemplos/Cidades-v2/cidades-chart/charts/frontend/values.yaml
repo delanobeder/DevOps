@@ -1,6 +1,6 @@
 replicaCount: 1
 
 image:
-  repository: cidades/frontend
+  repository: devopsufscar/cidades-v2-frontend
   tag: "latest"
   pullPolicy: IfNotPresent

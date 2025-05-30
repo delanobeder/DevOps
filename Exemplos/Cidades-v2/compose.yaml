@@ -8,7 +8,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
   
   frontend:
-    image: cidades/frontend
+    image: devopsufscar/cidades-v2-frontend
     restart: always
     labels:
       traefik.http.routers.frontend.rule: "Host(`localhost`)"
@@ -17,7 +17,7 @@ services:
       - backend
 
   backend:
-    image: cidades/backend
+    image: devopsufscar/cidades-v2-backend
     restart: always
     environment:
       MYSQL_HOST: db
@@ -31,7 +31,7 @@ services:
         condition: service_healthy
 
   db:
-    image: cidades/db
+    image: devopsufscar/cidades-v2-db
     volumes:
       - mysql-data:/var/lib/mysql
     healthcheck: #para garantir que o db vai estar completamente up antes de subir os demais conteineres

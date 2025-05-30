@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: cidades-db
-        image: cidades/db
+        image: devopsufscar/cidades-v2-db
         imagePullPolicy: IfNotPresent
         ports:
           - containerPort: 3306

@@ -20,9 +20,9 @@ build_db_image() {
     
     cd db
     
-    docker build . -t cidades/db
+    docker build . -t devopsufscar/cidades-v2-db
     
-    load_image cidades/db
+    load_image devopsufscar/cidades-v2-db
 
     cd ..
 }
@@ -39,11 +39,11 @@ build_backend_image() {
 
     mvn package -DskipTests
 
-    docker build . -t cidades/backend
+    docker build . -t devopsufscar/cidades-v2-backend
     
     mvn clean
 
-    load_image cidades/frontend
+    load_image devopsufscar/cidades-v2-frontend
 
     cd ..
 }
@@ -58,9 +58,9 @@ build_frontend_image() {
     
     # eval ${minikube docker-env}
     
-    docker build . -t cidades/frontend
+    docker build . -t devopsufscar/cidades-v2-frontend
     
-    load_image cidades/frontend
+    load_image devopsufscar/cidades-v2-frontend
 
     cd ..
 }

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: cidades/backend:latest
+          image: devopsufscar/cidades-v2-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080

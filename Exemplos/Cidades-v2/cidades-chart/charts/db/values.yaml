@@ -1,6 +1,6 @@
 replicaCount: 1
 
 image:
-  repository: cidades/db
+  repository: devopsufscar/cidades-v2-db
   tag: "latest"
   pullPolicy: IfNotPresent
