@@ -23,7 +23,7 @@ build_frontend_image() {
     
     cd frontend
     
-    docker build . -t contatos/frontend
+    docker build . -t devopsufscar/contatos-v1-frontend
     
     cd ..
 }

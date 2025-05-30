@@ -1,6 +1,6 @@
 replicaCount: 1
 
 image:
-  repository: contatos/frontend
+  repository: devopsufscar/contatos-v1-frontend
   tag: "latest"
   pullPolicy: IfNotPresent

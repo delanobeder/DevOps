@@ -13,9 +13,9 @@
 
 2. Entre no diretório **Exemplos/Contatos**
 
-3. Entre no diretório **backend** e faça o **build** da imagem (***contatos/backend***)
+3. Entre no diretório **backend** e faça o **build** da imagem (***devopsufscar/contatos-v1-backend***)
 
-   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***contatos/backend***).
+   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***devopsufscar/contatos-v1-backend***).
 
    ```bash
    $ cd backend
@@ -23,11 +23,11 @@
    $ cd ..
    ```
 
-4. Entre no diretório **frontend** e faça o **build** da imagem (***contatos/frontend***)
+4. Entre no diretório **frontend** e faça o **build** da imagem (***devopsufscar/contatos-v1-frontend***)
 
    ```bash
    $ cd frontend
-   $ docker build . -t contatos/frontend
+   $ docker build . -t devopsufscar/contatos-v1-frontend
    $ cd ..
    ```
 

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: contatos/backend:latest
+          image: devopsufscar/contatos-v1-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081

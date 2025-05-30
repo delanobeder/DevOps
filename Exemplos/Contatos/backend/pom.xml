@@ -79,7 +79,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<repository>contatos/backend</repository>
+					<repository>devopsufscar/contatos-v1-backend</repository>
 					<buildArgs>
 						<JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
 					</buildArgs>

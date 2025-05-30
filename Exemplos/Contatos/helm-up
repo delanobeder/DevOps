@@ -24,7 +24,7 @@ build_backend_image() {
 
     mvn package clean
             
-    load_image contatos/backend
+    load_image devopsufscar/contatos-v1-backend
 
     cd ..
 }
@@ -39,9 +39,9 @@ build_frontend_image() {
     
     # eval ${minikube docker-env}
     
-    docker build . -t contatos/frontend
+    docker build . -t devopsufscar/contatos-v1-frontend
     
-    load_image contatos/frontend
+    load_image devopsufscar/contatos-v1-frontend
 
     cd ..
 }

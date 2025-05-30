@@ -37,9 +37,9 @@ $ minikube dashboard &
 
 2.2. Entre no diretório **Exemplos/Contatos**
 
-2.3. Entre no diretório **backend** e faça o **build** da imagem (***contatos/backend***)
+2.3. Entre no diretório **backend** e faça o **build** da imagem (***devopsufscar/contatos-v1-backend***)
 
-   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***contatos/backend***).
+   Obs: O arquivo **pom.xml**, presente nesse diretório, foi configurado para compilar e fazer o **build** da imagem (***devopsufscar/contatos-v1-backend***).
 
    ```bash
    $ cd backend
@@ -48,12 +48,12 @@ $ minikube dashboard &
    $ cd ..
    ```
 
-2.4. Entre no diretório **frontend** e faça o **build** da imagem (***contatos/frontend***)
+2.4. Entre no diretório **frontend** e faça o **build** da imagem (***devopsufscar/contatos-v1-frontend***)
 
    ```bash
    $ cd frontend
    $ eval $(minikube docker-env)
-   $ docker build . -t contatos/frontend
+   $ docker build . -t devopsufscar/contatos-v1-frontend
    $ cd ..
    ```
 <div style="page-break-after: always"></div>
@@ -261,7 +261,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: contatos/backend:latest
+          image: devopsufscar/contatos-v1-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
@@ -346,7 +346,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: contatos/frontend:latest
+          image: devopsufscar/contatos-v1-frontend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
