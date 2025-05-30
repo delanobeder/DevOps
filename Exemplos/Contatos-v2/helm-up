@@ -10,11 +10,11 @@ build_backend_image() {
     
     # eval ${minikube docker-env}
 
-    docker build . -t contatos-v2/backend
+    docker build . -t devopsufscar/contatos-v2-backend
         
     # minikube image load apenas funciona no docker 24
     
-    minikube image load contatos-v2/backend
+    minikube image load devopsufscar/contatos-v2-backend
 
     cd ..
 }
@@ -29,9 +29,9 @@ build_frontend_image() {
     
     # eval ${minikube docker-env}
     
-    docker build . -t contatos-v2/frontend
+    docker build . -t devopsufscar/contatos-v2-frontend
     
-    minikube image load contatos-v2/frontend
+    minikube image load devopsufscar/contatos-v2-frontend
 
     cd ..
 }

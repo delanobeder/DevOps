@@ -13,19 +13,19 @@
 
 2. Entre no diretório **Exemplos/Contatos-v2**
 
-3. Entre no diretório **backend** e faça o **build** da imagem (***contatos-v2/backend***)
+3. Entre no diretório **backend** e faça o **build** da imagem (***devopsufscar/contatos-v2-backend***)
 
    ```bash
    $ cd backend
-   $ docker build . -t contatos-v2/backend
+   $ docker build . -t devopsufscar/contatos-v2-backend
    $ cd ..
    ```
    
-4. Entre no diretório **frontend** e faça o **build** da imagem (***contatos-v2/frontend***)
+4. Entre no diretório **frontend** e faça o **build** da imagem (***devopsufscar/contatos-v2-frontend***)
 
    ```bash
    $ cd frontend
-   $ docker build . -t contatos-v2/frontend
+   $ docker build . -t devopsufscar/contatos-v2-frontend
    $ cd ..
    ```
 
