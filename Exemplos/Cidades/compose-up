@@ -10,7 +10,7 @@ build_backend_image() {
     
     mvn package -DskipTests
 
-    docker build . -t cidades/backend
+    docker build . -t devopsufscar/cidades-v1-backend
     
     mvn clean
     
@@ -25,7 +25,7 @@ build_frontend_image() {
     
     cd frontend
     
-    docker build . -t cidades/frontend
+    docker build . -t devopsufscar/cidades-v1-frontend
     
     cd ..
 }

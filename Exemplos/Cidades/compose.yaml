@@ -1,7 +1,7 @@
 services:
 
   frontend:
-    image: cidades/frontend
+    image: devopsufscar/cidades-v1-frontend
     restart: always
     ports:
       - 80:80
@@ -9,7 +9,7 @@ services:
       - backend
     
   backend:
-    image: cidades/backend
+    image: devopsufscar/cidades-v1-backend
     restart: always
     environment:
       MYSQL_USER: root

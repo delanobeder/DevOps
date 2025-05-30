@@ -13,21 +13,21 @@
 
 2. Entre no diretório **Exemplos/Cidades**
 
-3. Entre no diretório **backend** e faça o **build** da imagem (***cidades/backend***)
+3. Entre no diretório **backend** e faça o **build** da imagem (***devopsufscar/cidades-v1-backend***)
 
    ```bash
    $ cd backend
    $ mvn package -DskipTests
-   $ docker build . -t cidades/backend
+   $ docker build . -t devopsufscar/cidades-v1-backend
    $ mvn clean
    $ cd ..
    ```
 
-4. Entre no diretório **frontend** e faça o **build** da imagem (***cidades/frontend***)
+4. Entre no diretório **frontend** e faça o **build** da imagem (***devopsufscar/cidades-v1-frontend***)
 
    ```bash
    $ cd frontend
-   $ docker build . -t cidades/frontend
+   $ docker build . -t devopsufscar/cidades-v1-frontend
    $ cd ..
    ```
 

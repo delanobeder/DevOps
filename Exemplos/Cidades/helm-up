@@ -24,11 +24,11 @@ build_backend_image() {
 
     mvn package -DskipTests
 
-    docker build . -t cidades/backend
+    docker build . -t devopsufscar/cidades-v1-backend
     
     mvn clean
 
-    load_image cidades/frontend
+    load_image devopsufscar/cidades-v1-frontend
 
     cd ..
 }
@@ -43,9 +43,9 @@ build_frontend_image() {
     
     # eval ${minikube docker-env}
     
-    docker build . -t cidades/frontend
+    docker build . -t devopsufscar/cidades-v1-frontend
     
-    load_image cidades/frontend
+    load_image devopsufscar/cidades-v1-frontend
 
     cd ..
 }
