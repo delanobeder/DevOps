@@ -16,6 +16,6 @@ spec:
         app: hello-node
     spec:
       containers:
-      - image: registry.k8s.io/echoserver:1.4
+      - image: crccheck/hello-world:latest
         imagePullPolicy: IfNotPresent
         name: echoserver

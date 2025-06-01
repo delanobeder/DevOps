@@ -74,7 +74,7 @@ Um **Pod** do **Kubernetes** consiste em um ou mais contêineres agrupados para 
            app: hello-node
        spec:
          containers:
-           - image: registry.k8s.io/echoserver:1.4
+           - image: crccheck/hello-world:latest
              imagePullPolicy: IfNotPresent
              name: echoserver
    ```
@@ -157,9 +157,9 @@ Por padrão, um Pod só é acessível utilizando o seu endereço IP interno no c
      type: LoadBalancer
      ports:
      - nodePort: 31123
-       port: 8080
+       port: 8000
        protocol: TCP
-       targetPort: 8080
+       targetPort: 8000
      selector:
        app: hello-node
    ```
@@ -180,7 +180,7 @@ Por padrão, um Pod só é acessível utilizando o seu endereço IP interno no c
 
     ```
     NAME         TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
-    hello-node   LoadBalancer   10.108.144.78   <pending>     8080:30369/TCP   21s
+    hello-node   LoadBalancer   10.100.87.121   <pending>     8000:31123/TCP   21s
     kubernetes   ClusterIP      10.96.0.1       <none>        443/TCP          23m
     ```
 
@@ -237,7 +237,6 @@ A ferramenta minikube inclui um conjunto integrado de addons que podem ser habil
     ```
     The 'metrics-server' addon is enabled
     ```
-
 3. Visualize o Pod e o Service que você acabou de criar:
 
     ```shell
@@ -247,26 +246,21 @@ A ferramenta minikube inclui um conjunto integrado de addons que podem ser habil
     A saída será semelhante a:
 
     ```
-    NAME                                        READY     STATUS    RESTARTS   AGE
-    pod/coredns-5644d7b6d9-mh9ll                1/1       Running   0          34m
-    pod/coredns-5644d7b6d9-pqd2t                1/1       Running   0          34m
-    pod/metrics-server-67fb648c5                1/1       Running   0          26s
-    pod/etcd-minikube                           1/1       Running   0          34m
-    pod/influxdb-grafana-b29w8                  2/2       Running   0          26s
-    pod/kube-addon-manager-minikube             1/1       Running   0          34m
-    pod/kube-apiserver-minikube                 1/1       Running   0          34m
-    pod/kube-controller-manager-minikube        1/1       Running   0          34m
-    pod/kube-proxy-rnlps                        1/1       Running   0          34m
-    pod/kube-scheduler-minikube                 1/1       Running   0          34m
-    pod/storage-provisioner                     1/1       Running   0          34m
+    NAME                                   READY   STATUS    RESTARTS   AGE
+    pod/coredns-5dd5756b68-sps44           1/1     Running   0          6m26s
+    pod/etcd-minikube                      1/1     Running   0          6m39s
+    pod/kube-apiserver-minikube            1/1     Running   0          6m39s
+    pod/kube-controller-manager-minikube   1/1     Running   0          6m40s
+    pod/kube-proxy-dtd9m                   1/1     Running   0          6m27s
+    pod/kube-scheduler-minikube            1/1     Running   0          6m39s
+    pod/metrics-server-7c66d45ddc-t5bx5    0/1     Running   0          52s
+    pod/storage-provisioner                1/1     Running   0          6m38s
     
-    NAME                           TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)             AGE
-    service/metrics-server         ClusterIP   10.96.241.45    <none>        80/TCP              26s
-    service/kube-dns               ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP       34m
-    service/monitoring-grafana     NodePort    10.99.24.54     <none>        80:30002/TCP        26s
-    service/monitoring-influxdb    ClusterIP   10.111.169.94   <none>        8083/TCP,8086/TCP   26s
+    NAME                     TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                  AGE
+    service/kube-dns         ClusterIP   10.96.0.10      <none>        53/UDP,53/TCP,9153/TCP   6m39s
+    service/metrics-server   ClusterIP   10.100.226.74   <none>        443/TCP                  52s
     ```
-<div style="page-break-after: always"></div>
+
 
 4. Verifique a saida do `metrics-server`:
 
@@ -286,6 +280,8 @@ A ferramenta minikube inclui um conjunto integrado de addons que podem ser habil
     ```
     error: Metrics API not available
     ```
+
+    <div style="page-break-after: always"></div>
 
 5. Desabilite o ***addon*** `metrics-server`:
 

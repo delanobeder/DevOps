@@ -8,9 +8,9 @@ spec:
   type: LoadBalancer
   ports:
   - nodePort: 31123
-    port: 8080
+    port: 8000
     protocol: TCP
-    targetPort: 8080
+    targetPort: 8000
   selector:
     app: hello-node
 
