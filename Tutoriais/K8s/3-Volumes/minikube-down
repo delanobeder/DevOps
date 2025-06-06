@@ -7,7 +7,9 @@
 kubectl delete -f ingress.yaml
 
 ################################################
-# Removendo a configuração do frontend
+# Removendo a configuração do service
 ################################################
 
-kubectl delete -f deployment.yaml; kubectl delete -f service.yaml
+kubectl delete -f deployment.yaml; kubectl delete -f service.yaml;
+
+kubectl delete -f pvc.yaml; kubectl delete pv pv-volume

@@ -1,0 +1,34 @@
+#!/bin/bash
+
+init_minikube() {
+
+    ################################################
+    # Inicializando o Minikube
+    ################################################
+
+    minikube start
+
+    ################################################
+    # Habilitando o Ingress
+    ################################################
+
+    minikube addons enable ingress
+
+    ################################################
+    # Inicializando o DashBoard
+    ################################################
+
+    minikube addons enable dashboard
+
+    minikube dashboard &
+}
+
+init_minikube
+
+kubectl apply -f deployment.yaml
+
+kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name)
+
+kubectl apply -f service.yaml
+
+minikube service hello-node

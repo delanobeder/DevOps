@@ -4,7 +4,7 @@
 # Inicializando o Minikube
 ################################################
 
-minikube start --cpus 4 --memory 4096
+minikube start
 
 ################################################
 # Habilitando o Ingress
@@ -20,20 +20,30 @@ minikube addons enable ingress
 
 minikube addons enable dashboard
 
-minikube addons enable metrics-server
-
 minikube dashboard &
 
 ################################################
 # Configurando o K8s
 ################################################
 
-kubectl apply -f deployment.yaml; kubectl apply -f service.yaml 
+kubectl apply -f pv.yaml; kubectl apply -f pvc.yaml;
+
+kubectl apply -f deployment-2.yaml; kubectl apply -f service.yaml 
 
 ################################################
 # Configurando o Ingress
 ################################################
 
-kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name)
+kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name) --timeout=300s
 
 kubectl apply -f ingress.yaml
+
+################################################
+# Criando e copiando o arquivo index.html
+################################################
+
+echo "<html><head><meta charset="UTF-8"></head><body><h1>Olá Mundo !!</h1></body></html>" > index.html
+
+kubectl cp index.html $(kubectl get pods --no-headers -o custom-columns=":metadata.name"):/usr/share/nginx/html
+
+rm index.html
