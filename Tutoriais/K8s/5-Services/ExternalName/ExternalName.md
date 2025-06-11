@@ -9,7 +9,7 @@
 
 Este tutorial demonstra como executar uma aplicação exemplo, que contém um serviço do tipo **ExternalName**, no Kubernetes utilizando o minikube. 
 
-**ClusterIP:**  Mapeia o serviço para o conteúdo do campo **externalName** (host externo) presente na configuração do serviço. O mapeamento configura o servidor DNS do seu cluster para retornar um registro CNAME com esse valor de nome de host externo. Nenhum proxy de qualquer tipo é configurado.
+**ExternalName:**  Mapeia o serviço para o conteúdo do campo **externalName** (host externo) presente na configuração do serviço. O mapeamento configura o servidor DNS do seu cluster para retornar um registro CNAME com esse valor de nome de host externo. Nenhum proxy de qualquer tipo é configurado.
 
 Material adicional: https://kubernetes.io/docs/concepts/services-networking/service/
 

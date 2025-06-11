@@ -4,7 +4,9 @@
 # Inicializando o Minikube
 ################################################
 
-minikube start
+minikube delete
+
+minikube start --nodes 2
 
 ################################################
 # Inicializando o DashBoard

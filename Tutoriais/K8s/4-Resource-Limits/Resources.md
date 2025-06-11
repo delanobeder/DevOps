@@ -236,7 +236,7 @@ $ kubectl delete pod memory-demo-2 --namespace=mem-example
 
 
 
-***Requests*** e ***limits*** Solicitações e limites de memória são associados a contêineres, mas é útil pensar em um Pod como tendo ***requests*** e ***limits*** de de memória.  A ***request*** de memória para o Pod é a soma das ***requests*** de memória para todos os contêineres presentes no Pod. Analogamente, o limite de memória para o Pod é a soma dos limites de todos os contêineres no Pod. O escalonamento do Pod é baseado em ***requests***. Um Pod é escalonado para ser executado em um nó (Node) somente se o nó tiver memória disponível suficiente para satisfazer a ***request*** de memória do Pod. 
+***Requests*** e ***limits*** Solicitações e limites de memória são associados a contêineres, mas é útil pensar em um Pod como tendo ***requests*** e ***limits*** de memória.  A ***request*** de memória para o Pod é a soma das ***requests*** de memória para todos os contêineres presentes no Pod. Analogamente, o limite de memória para o Pod é a soma dos limites de todos os contêineres no Pod. O escalonamento do Pod é baseado em ***requests***. Um Pod é escalonado para ser executado em um nó (Node) somente se o nó tiver memória disponível suficiente para satisfazer a ***request*** de memória do Pod. 
 
 Neste exemplo, vamos criar um Pod que tem um request de memória tão grande que excede a capacidade de qualquer nó (Node) em seu cluster. No arquivo (**memory-request-3.yaml**) apresentado abaixo, é a especificação da criação de um Pod que tem apenas um Container que tem um ***request*** de memória de 100 GiB de memória, o que provavelmente excede a capacidade de qualquer nó (Node) em seu cluster.
 
@@ -254,9 +254,9 @@ spec:
       image: polinux/stress
       resources:
         requests:
-          memory: "1000Gi"
+          memory: "100Gi"
         limits:
-          memory: "1000Gi"
+          memory: "100Gi"
       command: ["stress"]
       args: ["--vm", "1", "--vm-bytes", "150M", "--vm-hang", "1"]
 ```
