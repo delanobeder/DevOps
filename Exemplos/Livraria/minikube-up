@@ -104,7 +104,7 @@ cd ../..
 
 cd K8s/livraria
 
-kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name)
+kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name) --timeout=300s
 
 kubectl create -f deployment.yaml; kubectl create -f service.yaml; kubectl create -f configmap.yaml; 
 

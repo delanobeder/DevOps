@@ -84,7 +84,7 @@ cd ../..
 
 cd K8s/app
 
-kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name)
+kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name) --timeout=300s
 
 kubectl apply -f deployment.yaml; kubectl apply -f service.yaml; 
 
