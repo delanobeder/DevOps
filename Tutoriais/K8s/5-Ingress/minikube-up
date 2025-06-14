@@ -1,0 +1,35 @@
+#!/bin/bash
+
+################################################
+# Inicializando o Minikube
+################################################
+
+minikube start
+
+################################################
+# Habilitando o Ingress
+################################################
+
+minikube addons enable ingress
+
+################################################
+# Inicializando o DashBoard
+################################################
+
+minikube addons enable dashboard
+
+minikube dashboard &
+
+################################################
+# Configurando os serviços
+################################################
+
+kubectl apply -f services.yaml
+
+################################################
+# Configurando o Ingress
+################################################
+
+kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name) --timeout=300s
+
+kubectl apply -f ingress.yaml
