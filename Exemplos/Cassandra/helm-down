@@ -1,0 +1,9 @@
+#!/bin/bash
+
+################################################
+# Desinstalando via Helm
+################################################
+
+helm uninstall livraria
+
+kubectl delete pvc,pv -l app=cassandra

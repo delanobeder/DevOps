@@ -1,0 +1,15 @@
+#!/bin/bash
+
+################################################
+# Removendo as configurações
+################################################
+
+cd K8s
+
+kubectl delete statefulset,pvc,pv,svc -l app=cassandra
+
+kubectl delete -f livraria/deployment.yaml; kubectl delete -f livraria/service.yaml
+
+kubectl delete -f ingress.yaml
+
+cd ..

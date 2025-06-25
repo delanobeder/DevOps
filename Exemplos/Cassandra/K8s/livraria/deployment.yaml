@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: livros-mvc
+  labels:
+    app: livros-mvc
+spec:
+  selector:
+    matchLabels:
+      app: livros-mvc
+  template:
+    metadata:
+      labels:
+        app: livros-mvc
+    spec:
+      containers:
+        - name: livros-mvc
+          image: devopsufscar/livros-mvc:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+          - name: CASSANDRA_CLUSTER_NAME
+            value: "K8Demo"
+          - name: CASSANDRA_DC
+            value: "DC1-K8Demo"
+          - name: CASSANDRA_RACK
+            value: "Rack1-K8Demo"
+          - name: CASSANDRA_HOST
+            value: "cassandra"
+          - name: CASSANDRA_KEYSPACE
+            value: "livros_keyspace" 
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"
+      restartPolicy: Always

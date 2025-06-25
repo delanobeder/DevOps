@@ -1,0 +1,112 @@
+#!/bin/bash
+
+load_image() {
+
+    # minikube image load apenas funciona no docker 24
+    
+    echo "$(echo "Loading")" "$(echo $1)"
+
+    minikube image load $1
+
+    echo "$(echo "Loaded")" "$(echo $1)"
+
+    # Acredito que funciona para qualquer versão do docker
+    # docker image save -o image.tar $1
+    # minikube image load image.tar
+    # rm image.tar
+}
+
+build_image() {
+    
+    ################################################
+    # Gerando a imagem docker do product-mvc
+    ################################################
+    
+    cd LivrariaMVC
+    
+    # eval ${minikube docker-env}
+
+    mvn package clean
+
+    load_image devopsufscar/livros-mvc
+    
+    cd ..
+}
+
+init_minikube() {
+
+    ################################################
+    # Inicializando o Minikube
+    ################################################
+
+    minikube start --memory 5120 --cpus 4 --nodes 3
+
+    ################################################
+    # Habilitando o Ingress
+    ################################################
+
+    minikube addons enable ingress
+
+    ################################################
+    # Inicializando o DashBoard
+    ################################################
+
+    minikube addons enable dashboard
+
+    minikube addons enable metrics-server
+
+    minikube dashboard &
+
+    load_image cassandra:5.0.4
+}
+
+################################################
+# Verificando flags -ib
+################################################
+
+while getopts ":ib" option; do
+   case $option in
+      i) # initialize/start minikube
+         init_minikube
+         ;;  
+      b) # build images
+         build_image
+         ;;
+   esac
+done
+
+################################################
+# Configurando Cassandra
+################################################
+
+cd K8s/cassandra
+
+# Configurando Cassandra statefulset
+
+kubectl apply -f statefulset.yaml 
+
+# Configurando Cassandra service
+
+kubectl apply -f service.yaml
+
+cd ../..
+
+################################################
+# Configurando LivrariaMVC
+################################################
+
+cd K8s/livraria
+
+kubectl wait --for=jsonpath='{.status.phase}'=Running pod/cassandra-0 --timeout=300s
+
+kubectl apply -f deployment.yaml; kubectl apply -f service.yaml; 
+
+cd ..
+
+################################################
+# Configurando o Ingress
+################################################
+
+kubectl wait --for=jsonpath='{.status.phase}'=Running $(kubectl get pods -o=name) --timeout=300s
+
+kubectl apply -f ingress.yaml

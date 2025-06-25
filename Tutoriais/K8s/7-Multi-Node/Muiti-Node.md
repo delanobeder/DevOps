@@ -70,7 +70,7 @@ Crie o arquivo **deployment.yaml** com o conteúdo abaixo
            app: hello
        spec:
          affinity:
-           # ⬇⬇⬇ This ensures pods will land on separate hosts
+           # ⬇⬇⬇ Isso assegura que os pods serão implantados em diferentes nós
            podAntiAffinity:
              requiredDuringSchedulingIgnoredDuringExecution:
                - labelSelector:

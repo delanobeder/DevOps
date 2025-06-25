@@ -1,0 +1,8 @@
+replicaCount: 3
+
+image:
+  repository: cassandra
+  tag: "5.0.4"
+  pullPolicy: IfNotPresent
+
+name: cassandra

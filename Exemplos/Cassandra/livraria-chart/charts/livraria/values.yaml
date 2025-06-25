@@ -1,0 +1,6 @@
+replicaCount: 1
+
+image:
+  repository: devopsufscar/livros-mvc
+  tag: "latest"
+  pullPolicy: IfNotPresent
