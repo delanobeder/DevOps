@@ -1,6 +1,0 @@
-replicaCount: 1
-
-image:
-  repository: devopsufscar/cidades-v2-backend
-  tag: "latest"
-  pullPolicy: IfNotPresent

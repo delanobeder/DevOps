@@ -26,7 +26,7 @@ cd ../..
 
 cd K8s/backend
 
-kubectl delete -f deployment.yaml; kubectl delete -f service.yaml; 
+kubectl delete -f configmap.yaml; kubectl delete -f deployment.yaml; kubectl delete -f service.yaml; 
 
 cd ../..
 
@@ -36,7 +36,7 @@ cd ../..
 
 cd K8s/db
 
-kubectl delete -f deployment.yaml; kubectl delete -f service.yaml; kubectl delete -f configmap.yaml; kubectl delete -f secret.yaml;  
+kubectl delete -f deployment.yaml; kubectl delete -f service.yaml; kubectl delete -f secret.yaml;  
 
 kubectl delete -f pvc.yaml; kubectl delete pv contatos-pv-volume
 
