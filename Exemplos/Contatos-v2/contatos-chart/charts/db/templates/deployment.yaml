@@ -42,7 +42,7 @@ spec:
             cpu: "2"
         volumeMounts:
           - name: {{ .Release.Name }}-db-persistent-storage
-            mountPath: /var/lib/mysql
+            mountPath: /data/db
       volumes:
         - name: {{ .Release.Name }}-db-persistent-storage
           persistentVolumeClaim:
