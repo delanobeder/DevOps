@@ -24,7 +24,7 @@ public class CassandraConfig extends AbstractCassandraConfiguration {
 
     @Override
     protected String getLocalDataCenter() {
-        return System.getenv().getOrDefault("CASSANDRA_DC", "datacenter1");
+        return System.getenv().getOrDefault("CASSANDRA_DC", "DC1-K8Demo");
     }
 
     @Override

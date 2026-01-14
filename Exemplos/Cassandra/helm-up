@@ -57,7 +57,7 @@ init_minikube() {
 
     minikube dashboard &
 
-    load_image cassandra:5.0.4
+    load_image cassandra:4.1.3
 }
 
 ################################################

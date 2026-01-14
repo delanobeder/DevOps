@@ -19,7 +19,7 @@ spec:
       containers:
       - name: cassandra
         # image: gcr.io/google-samples/cassandra:v13
-        image: cassandra:5.0.4
+        image: cassandra:4.1.3
         imagePullPolicy: Always
         ports:
         - containerPort: 7000

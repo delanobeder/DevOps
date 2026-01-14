@@ -1,4 +1,7 @@
-From openjdk:11-jre-slim
-copy ./target/publisher-0.0.1-SNAPSHOT.jar publisher.jar
+FROM eclipse-temurin:17-alpine-3.23
 
-CMD ["java","-jar","publisher.jar"]
+VOLUME /tmp
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+
+CMD ["java","-jar","app.jar"]

@@ -1,0 +1,29 @@
+#!/bin/bash
+
+build_image() {
+    
+    ################################################
+    # Gerando a imagem docker do product-mvc
+    ################################################
+    
+    cd LivrariaMVC
+    
+    # eval ${minikube docker-env}
+
+    mvn package clean
+
+    cd ..
+}
+
+while getopts ":b" option; do
+   case $option in
+      b) # build images
+         build_image
+   esac
+done
+
+################################################
+# Executando o docker compose (UP)
+################################################
+
+docker compose up

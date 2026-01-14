@@ -1,7 +1,6 @@
 package br.ufscar.dc.dsw;
 
 import java.math.BigDecimal;
-import java.util.UUID;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

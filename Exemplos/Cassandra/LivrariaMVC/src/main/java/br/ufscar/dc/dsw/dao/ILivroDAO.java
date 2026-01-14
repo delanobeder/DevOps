@@ -5,11 +5,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.cassandra.repository.CassandraRepository;
+import org.springframework.stereotype.Repository;
 
 import br.ufscar.dc.dsw.domain.Livro;
 
 @SuppressWarnings("unchecked")
-public interface ILivroDAO extends CassandraRepository<Livro, UUID>{
+@Repository
+public interface ILivroDAO extends CassandraRepository<Livro,UUID>{
 
 	Optional<Livro> findById(UUID id);
 

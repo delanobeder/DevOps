@@ -1,4 +1,7 @@
-FROM openjdk:11-jre-slim
-COPY ./target/subscriber-0.0.1-SNAPSHOT.jar subscriber.jar
+FROM eclipse-temurin:17-alpine-3.23
 
-CMD ["java","-jar","subscriber.jar"]
+VOLUME /tmp
+ARG JAR_FILE
+COPY ${JAR_FILE} app.jar
+
+CMD ["java","-jar","app.jar"]
