@@ -22,12 +22,8 @@ build_backend_image() {
     
     # eval ${minikube docker-env}
 
-    mvn package -DskipTests
-
     docker build . -t devopsufscar/cidades-v1-backend
     
-    mvn clean
-
     load_image devopsufscar/cidades-v1-backend
 
     cd ..
