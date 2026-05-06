@@ -56,12 +56,12 @@ init_minikube() {
 
 while getopts ":ib" option; do
    case $option in
-      i) # initialize/start minikube
+      i) # inicializando minikube
          init_minikube
-         ;;
-      b) # build images
-         build_app_image
          load_mongo_image
+         ;;
+      b) # imagem todolist-app
+         build_app_image
          ;;
    esac
 done

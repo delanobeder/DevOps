@@ -78,18 +78,20 @@ init_minikube() {
 }
 
 ################################################
-# Verificando flag -b
+# Verificando flag -ibf
 ################################################
 
-while getopts ":ib" option; do
+while getopts ":ibf" option; do
    case $option in
-      i) # init minikube
+      i) # inicializando minikube
          init_minikube
-         ;;
-      b) # build images
-         build_backend_image
-         build_frontend_image
          load_mysql_image
+         ;;
+      b) # imagem backend
+         build_backend_image
+         ;;
+      f) # imagem frontend
+         build_frontend_image
          ;;
    esac
 done

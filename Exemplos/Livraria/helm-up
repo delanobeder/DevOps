@@ -70,18 +70,20 @@ init_minikube() {
 }
 
 ################################################
-# Verificando flag -ib
+# Verificando flag -ilt
 ################################################
 
-while getopts ":ib" option; do
+while getopts ":ilt" option; do
    case $option in
-      i) # init minikube
+      i) # inicializando minikube
          init_minikube
-         ;;
-      b) # build images
-         build_livraria_image
-         build_transacao_image
          load_mysql_image
+         ;;
+      l) # imagem livraria-mvc
+         build_livraria_image
+         ;;
+      t) # imagem transacao-api
+         build_transacao_image
          ;;
    esac
 done

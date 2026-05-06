@@ -26,11 +26,18 @@ build_frontend_image() {
     cd ..
 }
 
-while getopts ":b" option; do
+################################################
+# Verificando flag -bf
+################################################
+
+while getopts ":bf" option; do
    case $option in
-      b) # build images
+      b) # imagem backend
          build_backend_image
+         ;;
+      f) # imagem frontend
          build_frontend_image
+         ;;
    esac
 done
 

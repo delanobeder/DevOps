@@ -28,12 +28,14 @@ build_frontend_image() {
     cd ..
 }
 
-while getopts ":b" option; do
+while getopts ":bf" option; do
    case $option in
-      b) # build images
+      b) # build backend image
          build_backend_image
-
+         ;;
+      f) # build frontend image
          build_frontend_image
+         ;;
    esac
 done
 

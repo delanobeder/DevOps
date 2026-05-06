@@ -4,8 +4,8 @@ resource "kubernetes_secret" "db-secret" {
   }
 
   data = {
-    username = "cm9vdA=="
-    password = "cm9vdA=="
+    username = "root"
+    password = "root"
   }
 
   type = "kubernetes.io/basic-auth"

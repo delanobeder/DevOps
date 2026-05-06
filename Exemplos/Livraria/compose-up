@@ -27,14 +27,17 @@ build_transacao_image() {
 }
 
 ################################################
-# Verificando flag -b
+# Verificando flag -lt
 ################################################
 
-while getopts ":b" option; do
+while getopts ":lt" option; do
    case $option in
-      b) # build images
+      l) # imagem livraria-mvc
          build_livraria_image
+         ;;
+      t) # imagem transacao-api
          build_transacao_image
+         ;;
    esac
 done
 

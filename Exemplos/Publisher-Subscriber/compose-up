@@ -26,12 +26,18 @@ build_subscriber_image() {
     cd ..
 }
 
-while getopts ":b" option; do
-   case $option in
-      b) # build images
-         build_publisher_image
+################################################
+# Verificando flag -ps
+################################################
 
+while getopts ":ps" option; do
+   case $option in
+      p) # imagem ps-publisher
+         build_publisher_image
+         ;;
+      s) # imagem ps-subscriber
          build_subscriber_image
+         ;;
    esac
 done
 

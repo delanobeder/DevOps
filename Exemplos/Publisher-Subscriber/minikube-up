@@ -70,18 +70,20 @@ init_minikube() {
 }
 
 ################################################
-# Verificando flag -ib
+# Verificando flag -ips
 ################################################
 
-while getopts ":ib" option; do
+while getopts ":ips" option; do
    case $option in
-      i) # initialize minikube
+      i) # inicialização minikube
          init_minikube
-         ;;
-      b) # build images
-         build_publisher_image
-         build_subscriber_image
          load_rabbitmq_image
+         ;;
+      p) # imagem ps-publisher
+         build_publisher_image
+         ;;
+      s) # imagem ps-subscriber
+         build_subscriber_image
          ;;
    esac
 done

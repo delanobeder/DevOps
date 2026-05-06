@@ -13,9 +13,13 @@ build_app_image() {
     cd ..
 }
 
+################################################
+# Verificando flag -b
+################################################
+
 while getopts ":b" option; do
    case $option in
-      b) # build images
+      b) # imagem todolist-app
          build_app_image
    esac
 done

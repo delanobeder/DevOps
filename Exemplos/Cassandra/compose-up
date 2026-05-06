@@ -3,7 +3,7 @@
 build_image() {
     
     ################################################
-    # Gerando a imagem docker do product-mvc
+    # Gerando a imagem docker livros-mvc
     ################################################
     
     cd LivrariaMVC
@@ -15,9 +15,13 @@ build_image() {
     cd ..
 }
 
+################################################
+# Verificando flag -b
+################################################
+
 while getopts ":b" option; do
    case $option in
-      b) # build images
+      b) # imagem livros-mvc
          build_image
    esac
 done
