@@ -18,7 +18,8 @@ Material adicional: https://kubernetes.io/docs/concepts/services-networking/serv
 ## Criar um cluster do minikube e abrir o *dashboard*
 
 ```shell
-$ minikube start
+$ minikube delete
+$ minikube start --nodes 2
 $ minikube addons enable dashboard
 # Deixe este comando rodando (background).
 $ minikube dashboard &
@@ -134,7 +135,10 @@ kubernetes   ClusterIP   10.96.0.1     <none>        443/TCP        7m18s
 
 ## Acessando o serviço
 
-Abra um terminal e acesse http://192.168.49.2:30000 (curl), onde o IP 192.168.49.2 é o resultado da invocação do comando `minikube ip`.
+Abra um terminal e acesse http://192.168.49.2:30000 ou http://192.168.49.3:30000 (curl), onde 
+
+- o IP 192.168.49.2 é o resultado da invocação do comando `minikube ip`.
+- o IP 192.168.49.3 é o resultado da invocação do comando `minikube ip -n minikube-m02` .
 
 Note que o mesmo comando pode apresentar saídas distintas -- dependendo do Pod/Réplica que atende a requisição
 
@@ -142,13 +146,13 @@ Note que o mesmo comando pode apresentar saídas distintas -- dependendo do Pod/
 $ curl http://192.168.49.2:30000/; echo ""
 Hello from web-server-6975dddb7f-9jfwv (10.244.0.14)
 
-$ curl http://192.168.49.2:30000/; echo ""
+$ curl http://192.168.49.3:30000/; echo ""
 Hello from web-server-6975dddb7f-jp5cg (10.244.0.8)
 
 $ curl http://192.168.49.2:30000/; echo ""
 Hello from web-server-6975dddb7f-c686j (10.244.0.15)
 
-$ curl http://192.168.49.2:30000/; echo ""
+$ curl http://192.168.49.3:30000/; echo ""
 Hello from web-server-6975dddb7f-jp5cg (10.244.0.8)
 
 $ curl http://192.168.49.2:30000/; echo ""
