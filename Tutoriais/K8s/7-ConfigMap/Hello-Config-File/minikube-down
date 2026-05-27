@@ -1,0 +1,9 @@
+#!/bin/bash
+
+################################################
+# Removendo a configuração do frontend
+################################################
+
+kubectl delete -f ingress.yaml; kubectl delete -f service.yaml
+
+kubectl delete -f configmap.yaml; kubectl delete -f deployment.yaml
