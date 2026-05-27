@@ -21,6 +21,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: transacao-api
+                name: transacao
                 port:
                   number: 8081

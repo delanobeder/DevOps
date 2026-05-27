@@ -1,5 +1,14 @@
 #!/bin/bash
 
+load_image() {
+    
+    echo "$(echo "Loading")" "$(echo $1)"
+
+    minikube image load $1
+
+    echo "$(echo "Loaded")" "$(echo $1)"
+}
+
 build_app_image() {
     
     ################################################
@@ -11,16 +20,10 @@ build_app_image() {
     # eval ${minikube docker-env}
 
     docker build . -t devopsufscar/todolist-app
-
-    # minikube image load apenas funciona no docker 24
     
-    minikube image load devopsufscar/todolist-app
+    load_image devopsufscar/todolist-app
 
     cd ..
-}
-
-load_mongo_image() {
-    minikube image load mongo:4.2
 }
 
 init_minikube() {
@@ -58,7 +61,7 @@ while getopts ":ib" option; do
    case $option in
       i) # inicializando minikube
          init_minikube
-         load_mongo_image
+         load_image mongo:4.2
          ;;
       b) # imagem todolist-app
          build_app_image

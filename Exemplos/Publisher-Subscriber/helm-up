@@ -1,5 +1,14 @@
 #!/bin/bash
 
+load_image() {
+    
+    echo "$(echo "Loading")" "$(echo $1)"
+
+    minikube image load $1
+
+    echo "$(echo "Loaded")" "$(echo $1)"
+}
+
 build_publisher_image() {
     
     ################################################
@@ -12,9 +21,7 @@ build_publisher_image() {
 
     mvn package clean
         
-    # minikube image load apenas funciona no docker 24
-
-    minikube image load devopsufscar/ps-publisher
+    load_image devopsufscar/ps-publisher
 
     cd ..
 }
@@ -30,16 +37,10 @@ build_subscriber_image() {
     # eval ${minikube docker-env}
 
     mvn package clean
-        
-    # minikube image load apenas funciona no docker 24
 
-    minikube image load devopsufscar/ps-subscriber
+    load_image devopsufscar/ps-subscriber
 
     cd ..
-}
-
-load_rabbitmq_image() {
-    minikube image load rabbitmq:3-management
 }
 
 init_minikube() {
@@ -77,7 +78,7 @@ while getopts ":ips" option; do
    case $option in
       i) # inicialização minikube
          init_minikube
-         load_rabbitmq_image
+         load_image rabbitmq:3-management
          ;;
       p) # imagem ps-publisher
          build_publisher_image

@@ -1,5 +1,14 @@
 #!/bin/bash
 
+load_image() {
+    
+    echo "$(echo "Loading")" "$(echo $1)"
+
+    minikube image load $1
+
+    echo "$(echo "Loaded")" "$(echo $1)"
+}
+
 build_livraria_image() {
     
     ################################################
@@ -11,10 +20,8 @@ build_livraria_image() {
     # eval ${minikube docker-env}
 
     mvn package clean
-    
-    # minikube image load apenas funciona no docker 24
-    
-    minikube image load devopsufscar/livraria-mvc
+        
+    load_image devopsufscar/livraria-mvc
     
     cd ..
 }
@@ -31,15 +38,9 @@ build_transacao_image() {
 
     mvn package clean
     
-    # minikube image load apenas funciona no docker 24
-
-    minikube image load devopsufscar/transacao-api
+    load_image devopsufscar/transacao-api
 
     cd ..
-}
-
-load_mysql_image() {
-    minikube image load mysql:5.7
 }
 
 init_minikube() {
@@ -77,7 +78,7 @@ while getopts ":ilt" option; do
    case $option in
       i) # inicializando minikube
          init_minikube
-         load_mysql_image
+         load_image mysql:5.7
          ;;
       l) # imagem livraria-mvc
          build_livraria_image

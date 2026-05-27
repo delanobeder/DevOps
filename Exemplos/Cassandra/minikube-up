@@ -1,19 +1,12 @@
 #!/bin/bash
 
 load_image() {
-
-    # minikube image load apenas funciona no docker 24
     
     echo "$(echo "Loading")" "$(echo $1)"
 
     minikube image load $1
 
     echo "$(echo "Loaded")" "$(echo $1)"
-
-    # Acredito que funciona para qualquer versão do docker
-    # docker image save -o image.tar $1
-    # minikube image load image.tar
-    # rm image.tar
 }
 
 build_image() {

@@ -1,5 +1,14 @@
 #!/bin/bash
 
+load_image() {
+    
+    echo "$(echo "Loading")" "$(echo $1)"
+
+    minikube image load $1
+
+    echo "$(echo "Loaded")" "$(echo $1)"
+}
+
 build_backend_image() {
     
     ################################################
@@ -11,10 +20,8 @@ build_backend_image() {
     # eval ${minikube docker-env}
 
     docker build . -t devopsufscar/contatos-v2-backend
-        
-    # minikube image load apenas funciona no docker 24
     
-    minikube image load devopsufscar/contatos-v2-backend
+    load_image devopsufscar/contatos-v2-backend
 
     cd ..
 }
@@ -31,13 +38,9 @@ build_frontend_image() {
     
     docker build . -t devopsufscar/contatos-v2-frontend
     
-    minikube image load devopsufscar/contatos-v2-frontend
+    load_image devopsufscar/contatos-v2-frontend
 
     cd ..
-}
-
-load_mongo_image() {
-    minikube image load mongo:4.2
 }
 
 init_minikube() {
@@ -75,7 +78,7 @@ while getopts ":ib" option; do
    case $option in
       i) # inicializando minikube
          init_minikube
-         load_mongo_image
+         load_image mongo:4.2
          ;;
       b) # imagem backend
          build_backend_image

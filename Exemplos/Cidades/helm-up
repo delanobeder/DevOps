@@ -1,15 +1,12 @@
 #!/bin/bash
 
 load_image() {
-
-    # minikube image load apenas funciona no docker 24
     
+    echo "$(echo "Loading")" "$(echo $1)"
+
     minikube image load $1
 
-    # Acredito que funciona para qualquer versão do docker
-    # docker image save -o image.tar $1
-    # minikube image load image.tar
-    # rm image.tar
+    echo "$(echo "Loaded")" "$(echo $1)"
 }
 
 build_backend_image() {
@@ -44,10 +41,6 @@ build_frontend_image() {
     load_image devopsufscar/cidades-v1-frontend
 
     cd ..
-}
-
-load_mysql_image() {
-    load_image mysql:5.7
 }
 
 init_minikube() {
@@ -85,7 +78,7 @@ while getopts ":ibf" option; do
    case $option in
       i) # inicializando minikube
          init_minikube
-         load_mysql_image
+         load_image mysql:5.7
          ;;
       b) # imagem backend
          build_backend_image
