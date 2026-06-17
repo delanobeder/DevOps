@@ -68,7 +68,7 @@
                  number: 80
    ```
 
-5. Atualize o arquivo **templates/deployment.yaml** com o seguinte conteúdo:
+6. Atualize o arquivo **templates/deployment.yaml** com o seguinte conteúdo:
 
    ```yaml
    apiVersion: apps/v1
@@ -97,9 +97,9 @@
                  protocol: TCP
    ```
 
-   
+   <div style="page-break-after: always"></div>
 
-6. Atualize o arquivo **templates/service.yaml** com o seguinte conteúdo:
+7. Atualize o arquivo **templates/service.yaml** com o seguinte conteúdo:
 
    ```yaml
    apiVersion: v1
@@ -119,9 +119,9 @@
        app: {{ include "hello-world.name" . }}
    ```
 
-   <div style="page-break-after: always"></div>
+   
 
-7. Por fim, atualize o arquivo **values.yaml** com o seguinte conteúdo:
+8. Por fim, atualize o arquivo **values.yaml** com o seguinte conteúdo:
 
    ```yaml
    replicaCount: 1
@@ -136,7 +136,7 @@
 
    
 
-8. Entre no diretório **hello-world** e execute o seguinte comando:
+9. Entre no diretório **hello-world** e execute o seguinte comando:
 
    ```bash
    $ cd hello-world
@@ -147,9 +147,9 @@
    1 chart(s) linted, 0 chart(s) failed
    ```
 
-   
+   <div style="page-break-after: always"></div>
 
-9. No mesmo diretório, execute o seguinte comando:
+10. No mesmo diretório, execute o seguinte comando:
 
    ```bash
    $ helm template .
@@ -218,23 +218,22 @@
 
    
 
-10. No mesmo diretório, execute o seguinte comando:
+11. No mesmo diretório, execute o seguinte comando:
 
-   ```bash
-   $ helm install hello-world .
-   NAME: hello-world
-   LAST DEPLOYED: Sun Mar  9 11:47:06 2025
-   NAMESPACE: default
-   STATUS: deployed
-   REVISION: 1
-   TEST SUITE: None
-   ```
+    ```bash
+    $ helm install hello-world .
+      NAME: hello-world
+      LAST DEPLOYED: Sun Mar  9 11:47:06 2025
+      NAMESPACE: default
+      STATUS: deployed
+      REVISION: 1
+      TEST SUITE: None
+    ```
+    
+    
 
-   
 
 11. Acesse a url http://k8s.local (através de um navegador)
-
-    <div style="page-break-after: always"></div>
 
 12. Atualize o arquivo **values.yaml** com o seguinte conteúdo:
 
