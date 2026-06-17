@@ -6,7 +6,22 @@
 #### Tutorial Helm
 - - -
 
-1. Execute o comando abaixo
+1. Crie um cluster minikube
+
+   ```bash
+   $ minikube start
+   $ minikube dashboard &
+   
+   ################################################
+   # Habilitando o Ingress
+   ################################################
+   
+   $ minikube addons enable ingress
+   ```
+
+   
+
+2. Execute o comando abaixo
 
    ```bash
    $ helm create hello-world
@@ -14,7 +29,7 @@
 
    
 
-2. Entre no diretório **hello-world** e remova os seguintes arquivos do diretório **templates**:
+3. Entre no diretório **hello-world** e remova os seguintes arquivos do diretório **templates**:
 
    - tests (diretório)
    - hpa.yaml
@@ -23,22 +38,22 @@
 
    
 
-3. Ou seja, mantenha apenas os seguintes arquivos no diretório **templates**:
+4. Ou seja, mantenha apenas os seguintes arquivos no diretório **templates**:
 
    - _helpers.tpl
    - ingress.yaml
    - deployment.yaml
    - service.yaml
 
-   
+<div style="page-break-after: always"></div>
 
-4. Atualize o arquivo **templates/ingress.yaml** com o seguinte conteúdo:
+5. Atualize o arquivo **templates/ingress.yaml** com o seguinte conteúdo:
 
    ```yaml
    apiVersion: networking.k8s.io/v1
    kind: Ingress
    metadata:
-     name: hello-world-ingress
+     name: {{ include "hello-world.name" }}-ingress
    spec:
      rules:
      - host: k8s.local
@@ -52,7 +67,7 @@
                port:
                  number: 80
    ```
-<div style="page-break-after: always"></div>
+
 5. Atualize o arquivo **templates/deployment.yaml** com o seguinte conteúdo:
 
    ```yaml
@@ -74,7 +89,7 @@
        spec:
          containers:
            - name: {{ .Chart.Name }}
-             image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+             image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
              imagePullPolicy: {{ .Values.image.pullPolicy }}
              ports:
                - name: http
