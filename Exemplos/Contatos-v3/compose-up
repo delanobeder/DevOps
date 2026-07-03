@@ -27,7 +27,7 @@ build_frontend_image() {
 }
 
 ################################################
-# Verificando flags -bf
+# Verificando flag -bf
 ################################################
 
 while getopts ":bf" option; do
@@ -37,6 +37,7 @@ while getopts ":bf" option; do
          ;;
       f) # imagem frontend
          build_frontend_image
+         ;;
    esac
 done
 

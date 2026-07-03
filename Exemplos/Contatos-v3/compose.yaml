@@ -2,6 +2,8 @@ services:
   frontend:
     image: devopsufscar/contatos-v3-frontend
     restart: always
+    environment:
+      API_URL: http://backend:8081
     ports:
       - "80:80"
     networks: 
@@ -39,7 +41,7 @@ services:
       interval: 3s
       retries: 5
       start_period: 30s
-      
+  
 networks: 
   frontend:
   backend:

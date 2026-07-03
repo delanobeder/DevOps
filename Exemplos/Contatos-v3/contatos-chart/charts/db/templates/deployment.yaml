@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-db
+  name: {{ .Release.Name }}-{{ .Values.global.db.name }}
   labels:
-    app: {{ .Release.Name }}-db
+    app: {{ .Release.Name }}-{{ .Values.global.db.name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-db
+      app: {{ .Release.Name }}-{{ .Values.global.db.name }}
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-db
+        app: {{ .Release.Name }}-{{ .Values.global.db.name }}
     spec:
       containers:
-      - name: {{ .Release.Name }}-db
+      - name: {{ .Release.Name }}-{{ .Values.global.db.name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
@@ -26,12 +26,12 @@ spec:
           - name: MYSQL_ROOT_PASSWORD 
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-db-secret
+                name: {{ .Release.Name }}-{{ .Values.global.db.name }}-secret
                 key: password
           - name: MYSQL_DATABASE
             valueFrom:
               configMapKeyRef:
-                  name: {{ .Release.Name }}-db-configmap
+                  name: {{ .Release.Name }}-{{ .Values.global.db.name }}-configmap
                   key: database
         resources:
           requests:
@@ -41,9 +41,9 @@ spec:
             memory: "2Gi"
             cpu: "2"
         volumeMounts:
-          - name: {{ .Release.Name }}-db-persistent-storage
+          - name: {{ .Release.Name }}-{{ .Values.global.db.name }}-persistent-storage
             mountPath: /var/lib/mysql
       volumes:
-        - name: {{ .Release.Name }}-db-persistent-storage
+        - name: {{ .Release.Name }}-{{ .Values.global.db.name }}-persistent-storage
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-db-pv-claim
+            claimName: {{ .Release.Name }}-{{ .Values.global.db.name }}-pv-claim

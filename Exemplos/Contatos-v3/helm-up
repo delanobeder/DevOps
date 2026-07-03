@@ -80,10 +80,10 @@ while getopts ":ibf" option; do
          init_minikube
          load_image mysql:5.7
          ;;
-      b) # imagem backend
+      b) # build backend image
          build_backend_image
          ;;
-      f) # imagem frontend
+      f) # build frontend image
          build_frontend_image
          ;;
    esac

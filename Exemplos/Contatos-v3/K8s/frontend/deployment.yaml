@@ -1,17 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: contatos-frontend
   labels:
-    app: frontend
+    app: contatos-frontend
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: contatos-frontend
   template:
     metadata:
       labels:
-        app: frontend
+        app: contatos-frontend
     spec:
       containers:
         - name: frontend
@@ -19,6 +20,12 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
+          env:
+            - name: API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: contatos-backend-configmap
+                  key: url
           resources:
             requests:
               memory: "1Gi"

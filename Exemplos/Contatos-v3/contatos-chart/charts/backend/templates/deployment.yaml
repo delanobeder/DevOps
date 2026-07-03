@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.global.backend.name }}
+  name: {{ .Release.Name }}-{{ .Values.global.backend.name }}
   labels:
-    app: {{ .Values.global.backend.name }}
+    app: {{ .Release.Name }}-{{ .Values.global.backend.name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.global.backend.name }}
+      app: {{ .Release.Name }}-{{ .Values.global.backend.name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.global.backend.name }}
+        app: {{ .Release.Name }}-{{ .Values.global.backend.name }}
     spec:
       containers:
-        - name: {{ .Values.global.backend.name }}
+        - name: {{ .Release.Name }}-{{ .Values.global.backend.name }}
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
@@ -24,22 +24,22 @@ spec:
             - name: MYSQL_HOST
               valueFrom:
                 configMapKeyRef:
-                  name: {{ .Release.Name }}-db-configmap
+                  name: {{ .Release.Name }}-{{ .Values.global.db.name }}-configmap
                   key: host
             - name: MYSQL_DATABASE
               valueFrom:
                 configMapKeyRef:
-                  name: {{ .Release.Name }}-db-configmap
+                  name: {{ .Release.Name }}-{{ .Values.global.db.name }}-configmap
                   key: database
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-db-secret
+                  name: {{ .Release.Name }}-{{ .Values.global.db.name }}-secret
                   key: username
             - name: MYSQL_PASSWORD 
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Release.Name }}-db-secret
+                  name: {{ .Release.Name }}-{{ .Values.global.db.name }}-secret
                   key: password
           resources:
             requests:
