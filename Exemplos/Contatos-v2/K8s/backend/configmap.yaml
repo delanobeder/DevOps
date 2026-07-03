@@ -1,0 +1,6 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: contatos-backend-configmap
+data:
+  url: http://contatos-backend:5000

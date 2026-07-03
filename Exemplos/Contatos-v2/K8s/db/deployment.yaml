@@ -9,8 +9,6 @@ spec:
   selector:
     matchLabels:
       app: contatos-db
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

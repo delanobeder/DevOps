@@ -21,7 +21,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes: [
     { path: '/', component: ContatoList },
-    { path: '/contatos', component: ContatoList },
+    { path: '/contatos', redirect: '/' },
     { path: '/contatos/create', component: ContatoCreate },
     { path: '/contatos/edit/:id', component: ContatoEdit },
     { path: '/contatos/show/:id', component: ContatoShow },
