@@ -1,6 +1,10 @@
 global:
-  backend:
-    name: backend
   
   frontend:
     name: frontend
+
+  backend:
+    name: backend
+  
+  db:
+    name: db

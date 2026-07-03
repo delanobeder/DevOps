@@ -13,14 +13,14 @@ server {
     }
 
    location /estados {
-        proxy_pass http://backend:8081/estados;
+        proxy_pass ${API_URL}/estados;
     }
 
     location /cidades/estados {
-        proxy_pass http://backend:8081/cidades/estados;
+        proxy_pass ${API_URL}/cidades/estados;
     }
 
     location /cidades/filtros {
-        proxy_pass http://backend:8081/cidades/filtros;
+        proxy_pass ${API_URL}/cidades/filtros;
     }
 }

@@ -3,6 +3,8 @@ services:
   frontend:
     image: devopsufscar/cidades-v1-frontend
     restart: always
+    environment:
+      API_URL: http://backend:8081
     ports:
       - 80:80
     depends_on:

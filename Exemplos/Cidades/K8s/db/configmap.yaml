@@ -1,0 +1,6 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: cidades-db-configmap
+data:
+  database_url: jdbc:mysql://cidades-db:3306/Cidades?createDatabaseIfNotExist=true

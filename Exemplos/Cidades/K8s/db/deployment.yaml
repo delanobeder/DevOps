@@ -8,8 +8,6 @@ spec:
   selector:
     matchLabels:
       app: cidades-db
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:

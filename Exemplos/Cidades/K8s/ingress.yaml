@@ -11,6 +11,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: frontend
+            name: cidades-frontend
             port:
               number: 80
