@@ -71,7 +71,7 @@ init_minikube() {
 }
 
 ################################################
-# Verificando flag -b
+# Verificando flag -ibf
 ################################################
 
 while getopts ":ibf" option; do

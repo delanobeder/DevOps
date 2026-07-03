@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-db
+  name: {{ .Release.Name }}-{{ .Values.global.db.name }}
   labels:
-    run: {{ .Release.Name }}-db
+    run: {{ .Release.Name }}-{{ .Values.global.db.name }}
 spec:
   ports:
     - port: 3306
       targetPort: 3306
       protocol: TCP
   selector:
-    app: {{ .Release.Name }}-db
+    app: {{ .Release.Name }}-{{ .Values.global.db.name }}

@@ -1,6 +1,6 @@
 kind: ConfigMap 
 apiVersion: v1 
 metadata:
-  name: contatos-db-configmap
+  name: contatos-backend-configmap
 data:
-  database_url: jdbc:mysql://contatos-db:3306/Contatos?createDatabaseIfNotExist=true
+  url: http://contatos-backend:8081

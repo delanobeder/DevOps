@@ -169,8 +169,6 @@ spec:
   selector:
     matchLabels:
       app: contatos-db
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
@@ -228,7 +226,7 @@ spec:
 3.3.3. No diretório **K8s/db**, execute o comando abaixo:
 
 ```bash
-$ kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
+$ kubectl apply -f configmap.yaml; kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
 deployment.apps/contatos-db created
 service/contatos-db created
 ```
@@ -247,20 +245,20 @@ service/contatos-db created
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: contatos-backend
   labels:
-    app: backend
+    app: contatos-backend
 spec:
   selector:
     matchLabels:
-      app: backend
+      app: contatos-backend
   template:
     metadata:
       labels:
-        app: backend
+        app: contatos-backend
     spec:
       containers:
-        - name: backend
+        - name: contatos-backend
           image: devopsufscar/contatos-v1-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
@@ -298,23 +296,39 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: backend
+  name: contatos-backend
   labels:
-    run: backend
+    run: contatos-backend
 spec:
   ports:
     - port: 8081
       targetPort: 8081
       protocol: TCP
   selector:
-    app: backend
+    app: contatos-backend
 ```
-4.1.3. No diretório **K8s/backend**, execute o comando abaixo:
+
+
+4.1.3.  Crie o **ConfigMap** (arquivo **K8s/backend/configmap.yaml**)
+
+https://kubernetes.io/pt-br/docs/concepts/configuration/configmap/
+
+```yaml
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: contatos-backend-configmap
+data:
+  url: http://backend:8081
+```
+
+4.1.4. No diretório **K8s/backend**, execute o comando abaixo:
 
 ```bash
-$ kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
-deployment.apps/backend created
-service/backend created
+$ kubectl apply -f configmap.yaml; kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
+configmap/contatos-backend-configmap created
+deployment.apps/contatos-backend created
+service/contatos-backend created
 ```
 
 <div style="page-break-after: always"></div>
@@ -331,21 +345,21 @@ service/backend created
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend
+  name: contatos-frontend
   labels:
-    app: frontend
+    app: contatos-frontend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: frontend
+      app: contatos-frontend
   template:
     metadata:
       labels:
-        app: frontend
+        app: contatos-frontend
     spec:
       containers:
-        - name: frontend
+        - name: contatos-frontend
           image: devopsufscar/contatos-v1-frontend:latest
           imagePullPolicy: IfNotPresent
           ports:
@@ -359,6 +373,8 @@ spec:
               cpu: "2"
 ```
 
+
+
 <div style="page-break-after: always"></div>
 
 5.1.2. Crie o **Service** (arquivo **K8s/frontend/service,yaml**)
@@ -367,23 +383,23 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: frontend
+  name: contatos-frontend
   labels:
-    run: frontend
+    run: contatos-frontend
 spec:
   ports:
     - port: 80
       targetPort: 80
       protocol: TCP
   selector:
-    app: frontend
+    app: contatos-frontend
 ```
 5.1.3. No diretório **K8s/frontend**, execute o comando abaixo:
 
 ```bash
 $ kubectl apply -f deployment.yaml; kubectl apply -f service.yaml
-deployment.apps/frontend created
-service/frontend created
+deployment.apps/contatos-frontend created
+service/contatos-frontend created
 ```
 
 <div style="page-break-after: always"></div>
@@ -408,7 +424,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: frontend
+            name: contatos-frontend
             port:
               number: 80
 ```
@@ -447,16 +463,17 @@ ingress.networking.k8s.io "gateway-ingress" deleted
 
 ```bash
 $ kubectl delete -f deployment.yaml; kubectl delete -f service.yaml
-deployment.apps "frontend" deleted
-service "frontend" deleted
+deployment.apps "contatos-frontend" deleted
+service "contatos-frontend" deleted
 ```
 
 7.3 No diretório **K8s/backend**, execute o comando abaixo:
 
 ```bash
-$ kubectl delete -f deployment.yaml; kubectl delete -f service.yaml
-deployment.apps "backend" deleted
-service "backend" deleted
+$ kubectl delete -f configmap.yaml; kubectl delete -f deployment.yaml; kubectl delete -f service.yaml
+configmap "contatos-backend-configmap" deleted
+deployment.apps "contatos-backend" deleted
+service "contatos-backend" deleted
 ```
 
 7.4 No diretório **K8s/db**, execute o comando abaixo

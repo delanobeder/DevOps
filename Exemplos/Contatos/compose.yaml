@@ -2,6 +2,8 @@ services:
   frontend:
     image: devopsufscar/contatos-v1-frontend
     restart: always
+    environment:
+      API_URL: http://backend:8081
     ports:
       - "80:80"
     networks: 
@@ -32,7 +34,7 @@ services:
       - mysql-data:/var/lib/mysql
     networks:
       - backend
-    healthcheck: #para garantir que o db vai estar completamente up antes de subir os demais conteineres
+    healthcheck: # Para garantir que o db vai estar completamente up antes de subir os demais conteineres
       test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="root" --silent']
       interval: 3s
       retries: 5

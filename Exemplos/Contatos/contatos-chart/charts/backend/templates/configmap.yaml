@@ -1,6 +1,6 @@
 kind: ConfigMap 
 apiVersion: v1 
 metadata:
-  name: {{ .Release.Name }}-db-configmap
+  name: {{ .Release.Name }}-{{ .Values.global.backend.name }}-configmap
 data:
-  database_url: jdbc:mysql://{{ .Release.Name }}-db:3306/Contatos?createDatabaseIfNotExist=true
+  url: http://{{ .Release.Name }}-{{ .Values.global.backend.name }}:8081

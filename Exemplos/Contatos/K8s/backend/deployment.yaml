@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend
+  name: contatos-backend
   labels:
-    app: backend
+    app: contatos-backend
 spec:
   selector:
     matchLabels:
-      app: backend
+      app: contatos-backend
   template:
     metadata:
       labels:
-        app: backend
+        app: contatos-backend
     spec:
       containers:
-        - name: backend
+        - name: contatos-backend
           image: devopsufscar/contatos-v1-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
